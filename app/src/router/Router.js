@@ -10,6 +10,7 @@ import Home from '../pages/Home'
 import ViewFunds from '../pages/ViewFunds'
 import SingleFund from '../pages/SingleFund'
 import CreateFund from '../pages/CreateFund'
+import Logic from '../pages/FundMe'
 
 function Router({ drizzle, drizzleState }) {
   return (
@@ -25,6 +26,9 @@ function Router({ drizzle, drizzleState }) {
         <Route exact path="/pages" component={ViewFunds}/>
         <Route path="/pages/:id" component={SingleFund}/>
         <Route path="/create" component={CreateFund}/>
+        <Route path="/logic" >
+          <Logic drizzle={drizzle} drizzleState={drizzleState} />
+        </Route>
       </HashRouter>
     </div>
   );
