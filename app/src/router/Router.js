@@ -24,7 +24,9 @@ function Router({ drizzle, drizzleState }) {
         </Route>
         <Route path="/about" component={About}/>
         <Route exact path="/pages" component={ViewFunds}/>
-        <Route path="/pages/:id" component={SingleFund}/>
+        <Route path="/pages/:id">
+          <SingleFund drizzle={drizzle} drizzleState={drizzleState} />
+        </Route>
         <Route path="/create" component={CreateFund}/>
         <Route path="/logic" >
           <Logic drizzle={drizzle} drizzleState={drizzleState} />
