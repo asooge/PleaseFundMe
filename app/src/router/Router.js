@@ -12,22 +12,22 @@ import SingleFund from '../pages/SingleFund'
 import CreateFund from '../pages/CreateFund'
 import Logic from '../pages/FundMe'
 
-function Router({ drizzle, drizzleState }) {
+function Router({ appState, setApp, drizzle, drizzleState }) {
   return (
     <div className="App">
       <HashRouter>
         <NavigationBar/>
         
         <Route exact path="/">
-          <Home drizzle={drizzle} drizzleState={drizzleState}/>
+          <Home appState={appState} drizzle={drizzle} drizzleState={drizzleState}/>
         </Route>
         <Route path="/about" component={About}/>
         <Route exact path="/pages" component={ViewFunds}/>
         <Route path="/pages/:id">
-          <SingleFund drizzle={drizzle} drizzleState={drizzleState} />
+          <SingleFund appState={appState} drizzle={drizzle} drizzleState={drizzleState} />
         </Route>
         <Route path="/create" component={CreateFund}>
-          <CreateFund drizzle={drizzle} drizzleState={drizzleState}/>
+          <CreateFund appState={appState} drizzle={drizzle} drizzleState={drizzleState}/>
         </Route>
         <Route path="/logic" >
           <Logic drizzle={drizzle} drizzleState={drizzleState} />
