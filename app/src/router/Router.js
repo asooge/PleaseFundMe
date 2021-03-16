@@ -15,7 +15,6 @@ import Logic from '../pages/FundMe'
 function Router({ drizzle, drizzleState }) {
   return (
     <div className="App">
-      Router
       <HashRouter>
         <NavigationBar/>
         
@@ -27,7 +26,9 @@ function Router({ drizzle, drizzleState }) {
         <Route path="/pages/:id">
           <SingleFund drizzle={drizzle} drizzleState={drizzleState} />
         </Route>
-        <Route path="/create" component={CreateFund}/>
+        <Route path="/create" component={CreateFund}>
+          <CreateFund drizzle={drizzle} drizzleState={drizzleState}/>
+        </Route>
         <Route path="/logic" >
           <Logic drizzle={drizzle} drizzleState={drizzleState} />
         </Route>
