@@ -3,7 +3,7 @@ import { DrizzleContext } from "@drizzle/react-plugin";
 import { Drizzle } from "@drizzle/store";
 import drizzleOptions from "./drizzleOptions";
 import "./App.css";
-import Router from "./router/Router"
+import State from "./state/AppState"
 
 const drizzle = new Drizzle(drizzleOptions);
 
@@ -15,7 +15,7 @@ const App = () => {
           const { drizzle, drizzleState, initialized } = drizzleContext;
 
           return (
-            initialized ? <Router drizzle={drizzle} drizzleState={drizzleState} /> : "Loading . . ."
+            initialized ? <State drizzle={drizzle} drizzleState={drizzleState} /> : "Loading . . ."
           )
         }}
       </DrizzleContext.Consumer>
