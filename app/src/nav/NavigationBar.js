@@ -8,6 +8,7 @@ const NavigationBar = () => {
       <NavigationLink title="About" href="#/about"/>
       <NavigationLink title="Pages" href="#/pages"/>
       <NavigationLink title="Create" href="#/create"/>
+      <NavigationLink title="Logic" href="#/logic" />
     </div>
   )
 }

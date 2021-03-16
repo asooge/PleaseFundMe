@@ -2,7 +2,6 @@ import React from "react";
 import { DrizzleContext } from "@drizzle/react-plugin";
 import { Drizzle } from "@drizzle/store";
 import drizzleOptions from "./drizzleOptions";
-import Home from "./pages/Home";
 import "./App.css";
 import Router from "./router/Router"
 

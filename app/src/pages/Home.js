@@ -1,27 +1,32 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import Logic from './FundMe'
 
 const Home = ({ drizzle, drizzleState }) => {
-  const readFunderCount = async () => {
-    console.log('read')
-    // making cache call to keep data updated with blockchain
-    const txHash = drizzle.contracts.PleaseFundMe.methods.fundersCount.cacheCall()
-    console.log({ txHash })
 
-    // using Web3 to get the data at the exact moment in time
-    const count = await drizzle.contracts.PleaseFundMe.methods.fundersCount().call()
-    console.log({ count })
-  }
+  const [state, setState] = useState({
+    funderCountHash: null,
+  })
+
+  const fundersCount = state.funderCountHash && drizzleState.contracts.PleaseFundMe.fundersCount[state.funderCountHash]?.value
+  console.log({ fundersCount })
   
   useEffect(() => {
-    readFunderCount()
+    const txHash = drizzle.contracts.PleaseFundMe.methods.fundersCount.cacheCall()
+    setState({ funderCountHash: txHash})
   }, [])
+
+  useEffect(() => {
+    console.log('count changed')
+    console.log(drizzleState)
+  }, [drizzleState])
   
   return(
     <div>
       Home
       <button>
-        Read Funder Count
+        The count is {fundersCount}
       </button>
+      <Logic drizzle={drizzle} drizzleState={drizzleState} />
     </div>
   )
 }
