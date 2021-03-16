@@ -8,18 +8,12 @@ const Home = ({ drizzle, drizzleState }) => {
   })
 
   const fundersCount = state.funderCountHash && drizzleState.contracts.PleaseFundMe.fundersCount[state.funderCountHash]?.value
-  console.log({ fundersCount })
   
   useEffect(() => {
     const txHash = drizzle.contracts.PleaseFundMe.methods.fundersCount.cacheCall()
     setState({ funderCountHash: txHash})
   }, [])
-
-  useEffect(() => {
-    console.log('count changed')
-    console.log(drizzleState)
-  }, [drizzleState])
-  
+ 
   return(
     <div>
       Home
