@@ -22,7 +22,9 @@ function Router({ appState, setApp, drizzle, drizzleState }) {
           <Home appState={appState} drizzle={drizzle} drizzleState={drizzleState}/>
         </Route>
         <Route path="/about" component={About}/>
-        <Route exact path="/pages" component={ViewFunds}/>
+        <Route exact path="/pages">
+          <ViewFunds appState={appState} drizzle={drizzle} drizzleState={drizzleState}/>
+        </Route>
         <Route path="/pages/:id">
           <SingleFund appState={appState} drizzle={drizzle} drizzleState={drizzleState} />
         </Route>
