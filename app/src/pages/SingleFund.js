@@ -48,6 +48,7 @@ const SingleFund = ({ drizzle, drizzleState, match }) => {
   return(
     funder ? (
       <div>
+      {funder.title}
       {funder.fundTarget}
       </div>
     ) : "Loading . . ."
