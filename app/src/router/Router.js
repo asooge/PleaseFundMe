@@ -1,5 +1,4 @@
 import React from 'react'
-// import './App.scss';
 import NavigationBar from '../nav/NavigationBar'
 import {
   HashRouter,
@@ -22,10 +21,10 @@ function Router({ appState, setApp, drizzle, drizzleState }) {
           <Home appState={appState} drizzle={drizzle} drizzleState={drizzleState}/>
         </Route>
         <Route path="/about" component={About}/>
-        <Route exact path="/pages">
+        <Route exact path="/funds">
           <ViewFunds appState={appState} drizzle={drizzle} drizzleState={drizzleState}/>
         </Route>
-        <Route path="/pages/:id">
+        <Route path="/funds/:id">
           <SingleFund appState={appState} drizzle={drizzle} drizzleState={drizzleState} />
         </Route>
         <Route path="/create">

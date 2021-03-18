@@ -13,10 +13,13 @@ const ViewFunds = ({ appState, drizzle, drizzleState }) => {
 
   return(
     <div>
+      <h1>
+        View Funds
+      </h1>
       {array.map(index => {
         return(
           <div>
-            <Link to={`/pages/${index}`}>Fund {index +1}</Link>
+            <Link to={`/funds/${index}`}>Fund {index}</Link>
           </div>
         )
       })}

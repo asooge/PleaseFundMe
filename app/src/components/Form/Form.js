@@ -21,8 +21,10 @@ export const Form = ({
   )
 
   return (
-    <form onSubmit={onSubmit}>
-      {inputs.map(getInputJSX)}
+    <form className='form' onSubmit={onSubmit}>
+      <div>
+        {inputs.map(getInputJSX)}
+      </div>
       <button>Submit</button>
     </form>
   )

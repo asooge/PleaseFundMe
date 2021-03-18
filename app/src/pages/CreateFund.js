@@ -21,7 +21,15 @@ const CreateFund = ({ drizzle, drizzleState }) => {
     alert("Fund "+fund.title+" submitted!")
   }
 
-  return (<Form inputs={funderInputs} values={fund} handleChange={handleChange} onSubmit={createFunder} />)
+  return (
+    <div>
+      <h1>
+        Create a Fund
+      </h1>
+      <Form inputs={funderInputs} values={fund} handleChange={handleChange} onSubmit={createFunder} />
+    </div>
+
+    )
 }
 
 export default CreateFund
