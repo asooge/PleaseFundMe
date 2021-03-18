@@ -1,55 +1,53 @@
 import React, { useEffect, useState } from 'react'
 import { withRouter } from 'react-router-dom'
+import { Form } from '../components/Form/Form'
+import { funderInputs } from '../components/Form/inputs'
 
 const SingleFund = ({ drizzle, drizzleState, match }) => {
 
   const [state, setState] = useState({
-    funderHash: null
+    funderHash: null,
+  })
+
+  const [fund, setFund] = useState({
+    title: "",
+    goal: "",
+    endDate: "",
+    description: ""
   })
 
   useEffect(() => {
     getFunder()
   }, [match.params.id])
+
   const getFunder = async () => {
-    console.log('get funder')
-
-    // drizle makes a cache call to keep data up to date with the blockchain
     const funderHash = drizzle.contracts.PleaseFundMe.methods.funders.cacheCall(match.params.id)
-    console.log({ funderHash })
     setState({ funderHash })
-
-    // alternatively you can use Web3 to call the function and receive the data
-    const funder = await drizzle.contracts.PleaseFundMe.methods.funders(match.params.id).call();
-    const {
-      amountRaised,
-      fundBalance,
-      fundTarget,
-      owner,
-      title,
-    } = funder;
-
-    console.log({
-      amountRaised,
-      fundBalance,
-      fundTarget,
-      owner,
-      title,
-    })
   }
 
+  const funder = state.funderHash && (
+    drizzleState.contracts.PleaseFundMe.funders[state.funderHash]?.value
+  )
 
-    const funder = state.funderHash ? (
-      drizzleState.contracts.PleaseFundMe.funders[state.funderHash]?.value
-    ) : 'loading'
+  const handleChange = (event) => {
+    const { name, value } = event.target
+    setFund(prevState => ({ ...prevState, [name]: value }))
+  }
 
-    console.log({ funder })
-
+  const updateFunder = async (event) => {
+    event.preventDefault()
+    drizzle.contracts.PleaseFundMe.methods.updateFunder.cacheSend(fund.title, fund.goal, { gas: 1043200 })
+    alert("Fund "+fund.title+" submitted!")
+  }
 
   return(
     funder ? (
       <div>
-      {funder.title}
-      {funder.fundTarget}
+        <div>
+          {funder.title}
+          {funder.fundTarget}
+        </div>
+        <Form inputs={funderInputs} values={fund} handleChange={handleChange} onSubmit={updateFunder} />
       </div>
     ) : "Loading . . ."
   )
