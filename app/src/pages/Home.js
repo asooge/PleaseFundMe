@@ -8,10 +8,8 @@ const Home = ({ appState, drizzle, drizzleState }) => {
  
   return(
     <div>
-      Home
-      <button>
-        The count is {fundersCount}
-      </button>
+      <h1>Home</h1>
+      The count is {fundersCount}
       <Logic drizzle={drizzle} drizzleState={drizzleState} />
     </div>
   )
