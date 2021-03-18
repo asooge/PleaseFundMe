@@ -28,7 +28,7 @@ function Router({ appState, setApp, drizzle, drizzleState }) {
         <Route path="/pages/:id">
           <SingleFund appState={appState} drizzle={drizzle} drizzleState={drizzleState} />
         </Route>
-        <Route path="/create" component={CreateFund}>
+        <Route path="/create">
           <CreateFund appState={appState} drizzle={drizzle} drizzleState={drizzleState}/>
         </Route>
         <Route path="/logic" >
