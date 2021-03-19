@@ -10,7 +10,7 @@ const NavigationBar = () => {
       <NavigationLink title="Create" href="#/create" />
       <NavigationLink title="Logic" href="#/logic" />
     </div>
-  )
+  );
 }
 
 export default NavigationBar;
