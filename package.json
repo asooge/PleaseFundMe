@@ -45,8 +45,7 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
-      "npm run format",
-      "eslint *.js --fix-dry-run"
+      "prettier --write"
     ]
   }
 }

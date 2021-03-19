@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import NavigationLink from './NavigationLink';
 
 const NavigationBar = () => {
@@ -13,4 +13,4 @@ const NavigationBar = () => {
   );
 };
 
-export default NavigationBar
+export default NavigationBar;
