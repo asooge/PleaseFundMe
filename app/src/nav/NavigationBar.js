@@ -11,6 +11,6 @@ const NavigationBar = () => {
       <NavigationLink title="Logic" href="#/logic" />
     </div>
   )
-};
+}
 
 export default NavigationBar;
