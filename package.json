@@ -8,6 +8,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "format": "npx prettier --write",
     "create-migration": "truffle create migration",
     "ganache": "ganache-cli -d -m picture tray motion shuffle action fun puzzle velvet sample trip reject beef --db ./ganache_db -i 1 -b 4",
     "compile": "truffle compile",
@@ -43,10 +44,10 @@
     }
   },
   "lint-staged": {
-    "./src/*.{js,jsx,ts,tsx}": [
-      "npx prettier --write",
-      "eslint src/*.js --fix-dry-run",
-      "git add ."
+    "*.{js,jsx,ts,tsx}": [
+      "npm run format",
+      "eslint *.js --fix-dry-run",
+      "git add"
     ]
   }
 }
