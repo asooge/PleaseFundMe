@@ -1,5 +1,5 @@
 import React from 'react';
-import NavigationLink from './NavigationLink'
+import NavigationLink from './NavigationLink';
 
 const NavigationBar = () => {
   return (
@@ -10,7 +10,7 @@ const NavigationBar = () => {
       <NavigationLink title="Create" href="#/create" />
       <NavigationLink title="Logic" href="#/logic" />
     </div>
-  );
+  )
 };
 
 export default NavigationBar;
