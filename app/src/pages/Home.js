@@ -1,20 +1,19 @@
-import React from 'react'
-import Logic from './FundMe'
+import React from 'react';
+import Logic from './FundMe';
 
 const Home = ({ appState, drizzle, drizzleState }) => {
+  const { funderCountHash } = appState;
+  const fundersCount =
+    funderCountHash &&
+    drizzleState.contracts.PleaseFundMe.fundersCount[funderCountHash]?.value;
 
-  const { funderCountHash } = appState
-  const fundersCount = funderCountHash && drizzleState.contracts.PleaseFundMe.fundersCount[funderCountHash]?.value
- 
-  return(
+  return (
     <div>
       Home
-      <button>
-        The count is {fundersCount}
-      </button>
+      <button>The count is {fundersCount}</button>
       <Logic drizzle={drizzle} drizzleState={drizzleState} />
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
