@@ -1,36 +1,49 @@
-import React from 'react'
-import NavigationBar from '../nav/NavigationBar'
-import {
-  HashRouter,
-  Route
-} from 'react-router-dom'
-import About from '../pages/About'
-import Home from '../pages/Home'
-import ViewFunds from '../pages/ViewFunds'
-import SingleFund from '../pages/SingleFund'
-import CreateFund from '../pages/CreateFund'
-import Logic from '../pages/FundMe'
+import React from 'react';
+import NavigationBar from '../nav/NavigationBar';
+import { HashRouter, Route } from 'react-router-dom';
+import About from '../pages/About';
+import Home from '../pages/Home';
+import ViewFunds from '../pages/ViewFunds';
+import SingleFund from '../pages/SingleFund';
+import CreateFund from '../pages/CreateFund';
+import Logic from '../pages/FundMe';
 
 function Router({ appState, setApp, drizzle, drizzleState }) {
   return (
     <div className="App">
       <HashRouter>
-        <NavigationBar/>
-        
+        <NavigationBar />
+
         <Route exact path="/">
-          <Home appState={appState} drizzle={drizzle} drizzleState={drizzleState}/>
+          <Home
+            appState={appState}
+            drizzle={drizzle}
+            drizzleState={drizzleState}
+          />
         </Route>
-        <Route path="/about" component={About}/>
+        <Route path="/about" component={About} />
         <Route exact path="/funds">
-          <ViewFunds appState={appState} drizzle={drizzle} drizzleState={drizzleState}/>
+          <ViewFunds
+            appState={appState}
+            drizzle={drizzle}
+            drizzleState={drizzleState}
+          />
         </Route>
         <Route path="/funds/:id">
-          <SingleFund appState={appState} drizzle={drizzle} drizzleState={drizzleState} />
+          <SingleFund
+            appState={appState}
+            drizzle={drizzle}
+            drizzleState={drizzleState}
+          />
         </Route>
         <Route path="/create">
-          <CreateFund appState={appState} drizzle={drizzle} drizzleState={drizzleState}/>
+          <CreateFund
+            appState={appState}
+            drizzle={drizzle}
+            drizzleState={drizzleState}
+          />
         </Route>
-        <Route path="/logic" >
+        <Route path="/logic">
           <Logic drizzle={drizzle} drizzleState={drizzleState} />
         </Route>
       </HashRouter>

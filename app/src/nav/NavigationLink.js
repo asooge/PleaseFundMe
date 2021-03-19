@@ -1,11 +1,11 @@
-import React from 'react'
+import React from 'react';
 
-const NavigationLink = ({title, href}) => {
-  return(
+const NavigationLink = ({ title, href }) => {
+  return (
     <a className="nav-bar-button" href={href}>
       {title}
     </a>
-  )
-}
+  );
+};
 
-export default NavigationLink
+export default NavigationLink;
