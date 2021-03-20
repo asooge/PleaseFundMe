@@ -17,59 +17,118 @@ contract PleaseFundMe {
     }
 
     // PleaseFundMe
-
     struct Funder {
         address owner;
+        uint id;
         string title;
         uint fundTarget;
         uint fundBalance;
         uint amountRaised;
     }
     
-    Funder[] public funders;
-    uint public fundersCount = 0;
+    struct User {
+        address owner;
+        uint id;
+        string username;
+        string aboutMe;
+        string backgroundGradient;
+        uint fundersCount;
+    }
     
-    mapping (address => uint256) ownerToIndex;
+    User[] public users;
+    uint public userCount = 0;
     
+    mapping (address => uint) ownerToUserId;
+    mapping (address => Funder[]) ownerToFunders;
+    
+    address private _developerAddress;
+    
+    constructor() {
+        _createHomePage(msg.sender, 'dev', 'developer page', 'blue');
+        _developerAddress = msg.sender;
+    }
+    
+    
+    function createHomePage(string memory _username, string memory _aboutMe, string memory _backgroundGradient) public {
+        uint _id = ownerToUserId[msg.sender];
+        require(msg.sender != _developerAddress, 'dev already has a home page');
+        require(_id == 0, 'user already has a home page'); // enforce only one User per address
+        _createHomePage(msg.sender, _username, _aboutMe, _backgroundGradient);
+    }
+    
+    function _createHomePage(address _sender, string memory _username, string memory _aboutMe, string memory _backgroundGradient) internal {
+        User memory newUser = User(msg.sender, userCount, _username, _aboutMe, _backgroundGradient, 0);
+        ownerToUserId[_sender] = userCount; // assign sender a user id
+        users.push(newUser); // add the new user
+        userCount = users.length; // increment the userCount
+    }
+    
+    function updateHomePage(string memory _username, string memory _aboutMe, string memory _backgroundGradient) public {
+        uint _id = ownerToUserId[msg.sender];
+        require(users[_id].owner == msg.sender);
+        users[_id].username = _username;
+        users[_id].aboutMe = _aboutMe;
+        users[_id].backgroundGradient = _backgroundGradient;
+    }
     
     function createFunder(string memory _title, uint _fundTarget) public {
-        Funder memory newFunder = Funder(msg.sender, _title, _fundTarget, 0, 0);
-        funders.push(newFunder);
-        fundersCount = funders.length;
-
-        ownerToIndex[msg.sender] = fundersCount - 1;
+        uint _id = ownerToUserId[msg.sender];
+        if (_id == 0) {
+            require(msg.sender == _developerAddress, 'must create home page before creating funder');
+        }
+        _createFunder(msg.sender, _title, _fundTarget);
     }
     
-    function updateFunder(string memory _title, uint _fundTarget) public {
-        uint256 index = ownerToIndex[msg.sender];
-        Funder storage funder = funders[index];
-        require(msg.sender == funder.owner, "not authorized");
+    
+    function _createFunder(address _sender, string memory _title, uint _fundTarget) internal {
+        uint _homePageId = ownerToUserId[_sender];
+        uint _funderId = users[_homePageId].fundersCount;
+        ownerToFunders[_sender].push(Funder(_sender, _funderId, _title, _fundTarget, 0, 0));
         
-        funder.title = _title;
-        funder.fundTarget = _fundTarget;
+        users[_homePageId].fundersCount = users[_homePageId].fundersCount + 1;
     }
     
-    function getMyBalance() public view returns(uint) {
-        address owner = msg.sender;
-        uint256 index = ownerToIndex[owner];
-        require (funders[index].owner == msg.sender, 'no funder for user');
-        return funders[index].fundBalance;
+    function updateFunder(uint _index, string memory _title, uint _fundTarget) public {
+        address _sender = msg.sender;
+        uint _homePageId = ownerToUserId[_sender];
+        require(users[_homePageId].owner == _sender, 'must be owner to update');
+        ownerToFunders[_sender][_index].title = _title;
+        ownerToFunders[_sender][_index].fundTarget = _fundTarget;
     }
     
-    function contribute(uint _num) payable public {
-        uint contribution = msg.value;
-        Funder storage funder = funders[_num];
-        funder.fundBalance += contribution;
-        funder.amountRaised += contribution;
+    function getUserFundersCount(address _address) public view returns(uint) {
+        return users[ownerToUserId[_address]].fundersCount;
     }
     
-    function withdraw() public payable{
-        uint index = ownerToIndex[msg.sender];
-        Funder storage funder = funders[index];
-        uint totalFunds = funder.fundBalance;
-        require(totalFunds > 0, 'no funds to withdraw');
-        require(funder.owner == msg.sender, "unauthorized");
-        funder.fundBalance = 0;
-        msg.sender.transfer(totalFunds);
+    function getUserFunderAtIndex(address _owner, uint _index) public view returns(Funder memory) {
+        return ownerToFunders[_owner][_index];
     }
+    
+    function getUserFunders(address _owner) public view returns(Funder[] memory) {
+        return ownerToFunders[_owner];
+    }
+    
+    // function getMyBalance() public view returns(uint) {
+    //     address owner = msg.sender;
+    //     uint256 index = ownerToIndex[owner];
+    //     require (funders[index].owner == msg.sender, 'no funder for user');
+    //     return funders[index].fundBalance;
+    // }
+    
+    // function contribute(uint _num) payable public {
+    //     uint contribution = msg.value;
+    //     Funder storage funder = funders[_num];
+    //     funder.fundBalance += contribution;
+    //     funder.amountRaised += contribution;
+    // }
+    
+    // function withdraw() public payable{
+    //     uint index = ownerToIndex[msg.sender];
+    //     Funder storage funder = funders[index];
+    //     uint totalFunds = funder.fundBalance;
+    //     require(totalFunds > 0, 'no funds to withdraw');
+    //     require(funder.owner == msg.sender, "unauthorized");
+    //     funder.fundBalance = 0;
+    //     msg.sender.transfer(totalFunds);
+    // }
 }

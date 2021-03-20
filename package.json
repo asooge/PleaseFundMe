@@ -13,6 +13,7 @@
     "compile": "truffle compile",
     "migrate": "truffle migrate --network develop",
     "deploy": "truffle deploy --network develop",
+    "redeploy": "truffle deploy --network develop --reset",
     "prepare": "husky install"
   },
   "repository": {
