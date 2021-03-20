@@ -7,7 +7,7 @@ const AppState = ({ drizzle, drizzleState }) => {
   });
 
   useEffect(() => {
-    const txHash = drizzle.contracts.PleaseFundMe.methods.fundersCount.cacheCall();
+    const txHash = drizzle.contracts.PleaseFundMe.methods.userCount.cacheCall();
     setAppState({ funderCountHash: txHash });
   }, []);
 

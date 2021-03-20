@@ -20,7 +20,7 @@ const SingleFund = ({ drizzle, drizzleState, match }) => {
   }, [match.params.id]);
 
   const getFunder = async () => {
-    const funderHash = drizzle.contracts.PleaseFundMe.methods.funders.cacheCall(
+    const funderHash = drizzle.contracts.PleaseFundMe.methods.users.cacheCall(
       match.params.id,
     );
     setState({ funderHash });
@@ -28,7 +28,7 @@ const SingleFund = ({ drizzle, drizzleState, match }) => {
 
   const funder =
     state.funderHash &&
-    drizzleState.contracts.PleaseFundMe.funders[state.funderHash]?.value;
+    drizzleState.contracts.PleaseFundMe.users[state.funderHash]?.value;
 
   const handleChange = (event) => {
     const { name, value } = event.target;
