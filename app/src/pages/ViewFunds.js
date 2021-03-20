@@ -5,7 +5,7 @@ const ViewFunds = ({ appState, drizzle, drizzleState }) => {
   const { funderCountHash } = appState;
   const fundersCount =
     funderCountHash &&
-    drizzleState.contracts.PleaseFundMe.fundersCount[funderCountHash]?.value;
+    drizzleState.contracts.PleaseFundMe.userCount[funderCountHash]?.value;
 
   const array = Array();
   for (var i = 0; i < fundersCount; i++) {
