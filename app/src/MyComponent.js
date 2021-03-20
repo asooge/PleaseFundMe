@@ -1,6 +1,6 @@
-import React from "react";
-import { newContextComponents } from "@drizzle/react-components";
-import logo from "./logo.png";
+import React from 'react';
+import { newContextComponents } from '@drizzle/react-components';
+import logo from './logo.png';
 
 const { AccountData, ContractData, ContractForm } = newContextComponents;
 
@@ -61,7 +61,7 @@ export default ({ drizzle, drizzleState }) => {
             contract="TutorialToken"
             method="totalSupply"
             methodArgs={[{ from: drizzleState.accounts[0] }]}
-          />{" "}
+          />{' '}
           <ContractData
             drizzle={drizzle}
             drizzleState={drizzleState}
@@ -85,7 +85,7 @@ export default ({ drizzle, drizzleState }) => {
           drizzle={drizzle}
           contract="TutorialToken"
           method="transfer"
-          labels={["To Address", "Amount to Send"]}
+          labels={['To Address', 'Amount to Send']}
         />
       </div>
 

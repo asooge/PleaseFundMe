@@ -1,0 +1,4 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+npx prettier --config .prettierrc.js --write ./ && git add -A .
