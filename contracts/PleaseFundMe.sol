@@ -107,28 +107,31 @@ contract PleaseFundMe {
     function getUserFunders(address _owner) public view returns(Funder[] memory) {
         return ownerToFunders[_owner];
     }
+
+    function getUsers() public view returns(User[] memory) {
+        return users;
+    }
     
-    // function getMyBalance() public view returns(uint) {
-    //     address owner = msg.sender;
-    //     uint256 index = ownerToIndex[owner];
-    //     require (funders[index].owner == msg.sender, 'no funder for user');
-    //     return funders[index].fundBalance;
-    // }
+    function getMyBalance(uint _index) public view returns(uint) {
+        address owner = msg.sender;
+        Funder memory funder = ownerToFunders[owner][_index];
+        require (funder.owner == msg.sender, 'no funder for user');
+        return funder.fundBalance;
+    }
     
-    // function contribute(uint _num) payable public {
-    //     uint contribution = msg.value;
-    //     Funder storage funder = funders[_num];
-    //     funder.fundBalance += contribution;
-    //     funder.amountRaised += contribution;
-    // }
+    function contribute(address _owner, uint _index) payable public {
+        uint contribution = msg.value;
+        Funder storage funder = ownerToFunders[_owner][_index];
+        funder.fundBalance += contribution;
+        funder.amountRaised += contribution;
+    }
     
-    // function withdraw() public payable{
-    //     uint index = ownerToIndex[msg.sender];
-    //     Funder storage funder = funders[index];
-    //     uint totalFunds = funder.fundBalance;
-    //     require(totalFunds > 0, 'no funds to withdraw');
-    //     require(funder.owner == msg.sender, "unauthorized");
-    //     funder.fundBalance = 0;
-    //     msg.sender.transfer(totalFunds);
-    // }
+    function withdraw(uint _index) public payable{
+        Funder storage funder = ownerToFunders[msg.sender][_index];
+        uint totalFunds = funder.fundBalance;
+        require(totalFunds > 0, 'no funds to withdraw');
+        require(funder.owner == msg.sender, "unauthorized");
+        funder.fundBalance = 0;
+        msg.sender.transfer(totalFunds);
+    }
 }
