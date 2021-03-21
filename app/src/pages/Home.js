@@ -1,17 +1,27 @@
-import React from 'react';
-import Logic from './FundMe';
+import React, { useEffect } from 'react';
+import NavigationLink from '../nav/NavigationLink';
 
 const Home = ({ appState, drizzle, drizzleState }) => {
-  const { funderCountHash } = appState;
-  const fundersCount =
-    funderCountHash &&
-    drizzleState.contracts.PleaseFundMe.userCount[funderCountHash]?.value;
+  useEffect(() => {
+    users && console.log({ users: users });
+  }, [drizzleState.contracts.PleaseFundMe]);
+  const { getUsersHash } = appState;
+  const users =
+    getUsersHash &&
+    drizzleState.contracts.PleaseFundMe.getUsers[getUsersHash]?.value;
 
   return (
     <div>
       <h1>Home</h1>
-      The count is {fundersCount}
-      <Logic drizzle={drizzle} drizzleState={drizzleState} />
+      {users &&
+        users.map((user) => (
+          <NavigationLink
+            title={user.username}
+            href={`#/pages/${user.owner}`}
+            style={{ backgroundColor: user.backgroundGradient }}
+            key={user.owner}
+          />
+        ))}
     </div>
   );
 };
