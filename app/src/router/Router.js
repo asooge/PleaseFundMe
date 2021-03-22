@@ -47,6 +47,7 @@ function Router({ appState, setApp, drizzle, drizzleState }) {
         <Route path="/pages/:id">
           <UserHome
             appState={appState}
+            setApp={setApp}
             drizzle={drizzle}
             drizzleState={drizzleState}
           />

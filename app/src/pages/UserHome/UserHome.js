@@ -1,20 +1,43 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { withRouter } from 'react-router-dom';
 import UpdateHomePage from './subcomponents/UpdateHomePage';
+import NavigationLink from '../../nav/NavigationLink';
 
-const UserHome = ({ appState, drizzle, drizzleState, match }) => {
-  useEffect(() => {
-    users && console.log({ users: users });
-  }, [drizzleState.contracts.PleaseFundMe]);
+const UserHome = ({ appState, setApp, drizzle, drizzleState, match }) => {
   const { getUsersHash } = appState;
-  const users =
-    getUsersHash &&
-    drizzleState.contracts.PleaseFundMe.getUsers[getUsersHash]?.value;
 
-  const id = match.params.id;
+  const users = useMemo(() => {
+    return (
+      getUsersHash &&
+      drizzleState.contracts.PleaseFundMe.getUsers[getUsersHash]?.value
+    );
+  }, [getUsersHash, drizzleState]);
 
-  const user = users && users[id];
-  console.log(user);
+  const { id } = match.params;
+
+  const user = useMemo(() => {
+    return users && users[id];
+  }, [users, id]);
+
+  useEffect(() => {
+    const userFundersHash =
+      user &&
+      drizzle.contracts.PleaseFundMe.methods.getUserFunders.cacheCall(
+        user.owner,
+      );
+    setApp((prevState) => ({
+      ...prevState,
+      userFundersHash,
+    }));
+  }, [user]);
+
+  const { userFundersHash } = appState;
+
+  const userFunders =
+    userFundersHash &&
+    drizzleState.contracts.PleaseFundMe.getUserFunders[userFundersHash]?.value;
+
+  const isOwner = user && user.owner == drizzleState.accounts[0];
 
   return user ? (
     <div
@@ -24,11 +47,25 @@ const UserHome = ({ appState, drizzle, drizzleState, match }) => {
       <h2>{user.username}</h2>
       <p>{user.aboutMe}</p>
       <p>{user.owner}</p>
-      <UpdateHomePage
-        appState={appState}
-        drizzle={drizzle}
-        drizzleState={drizzleState}
-      />
+      {isOwner && (
+        <UpdateHomePage
+          appState={appState}
+          drizzle={drizzle}
+          drizzleState={drizzleState}
+        />
+      )}
+      <div className="funders-container">
+        {userFunders &&
+          userFunders.map((funder) => (
+            <div>
+              <NavigationLink
+                title={`${funder.title}, ${funder.fundTarget}`}
+                href={`#/pages/${user.id}`}
+                key={user.owner}
+              />
+            </div>
+          ))}
+      </div>
     </div>
   ) : null;
 };
