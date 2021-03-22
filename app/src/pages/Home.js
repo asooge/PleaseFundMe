@@ -30,7 +30,7 @@ const Home = ({ appState, drizzle, drizzleState }) => {
       user.aboutMe,
       user.backgroundGradient,
     );
-    alert('User updated!');
+    alert(`Home page created for ${user.username}!`);
   };
 
   return (
