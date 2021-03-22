@@ -20,7 +20,6 @@ const UpdateHomePage = ({ appState, drizzle, drizzleState, match }) => {
       user.username,
       user.aboutMe,
       user.backgroundGradient,
-      { gas: 1043200 },
     );
     alert('User updated!');
   };
@@ -32,7 +31,7 @@ const UpdateHomePage = ({ appState, drizzle, drizzleState, match }) => {
         inputs={homePageInputs}
         values={user}
         handleChange={handleChange}
-        handleSubmit={handleSubmit}
+        onSubmit={handleSubmit}
       />
     </div>
   );
