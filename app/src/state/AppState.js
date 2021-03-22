@@ -8,12 +8,12 @@ const AppState = ({ drizzle, drizzleState }) => {
 
   useEffect(() => {
     const txHash = drizzle.contracts.PleaseFundMe.methods.getUsers.cacheCall();
-    drizzle.contracts.PleaseFundMe.methods.createHomePage.cacheSend(
-      'miketsuji',
-      'hello',
-      'yellow',
-      { from: '0x4721AcaC089c31B42c74948DC09d3a1a4626fD5F', gas: 1250000 },
-    );
+    // drizzle.contracts.PleaseFundMe.methods.createHomePage.cacheSend(
+    //   'miketsuji',
+    //   'hello',
+    //   'yellow',
+    //   { from: '0x4721AcaC089c31B42c74948DC09d3a1a4626fD5F', gas: 1250000 },
+    // );
     setAppState({ getUsersHash: txHash });
   }, []);
 
