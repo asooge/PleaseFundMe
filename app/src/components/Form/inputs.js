@@ -20,3 +20,21 @@ export const funderInputs = [
     type: 'text',
   },
 ];
+
+export const homePageInputs = [
+  {
+    label: 'Username',
+    name: 'username',
+    type: 'text',
+  },
+  {
+    label: 'About Me',
+    name: 'aboutMe',
+    type: 'text',
+  },
+  {
+    label: 'Background Color',
+    name: 'backgroundGradient',
+    type: 'text',
+  },
+];

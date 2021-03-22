@@ -7,6 +7,7 @@ import ViewFunds from '../pages/ViewFunds';
 import SingleFund from '../pages/SingleFund';
 import CreateFund from '../pages/CreateFund';
 import Logic from '../pages/FundMe';
+import UserHome from '../pages/UserHome/UserHome';
 
 function Router({ appState, setApp, drizzle, drizzleState }) {
   return (
@@ -38,6 +39,13 @@ function Router({ appState, setApp, drizzle, drizzleState }) {
         </Route>
         <Route path="/create">
           <CreateFund
+            appState={appState}
+            drizzle={drizzle}
+            drizzleState={drizzleState}
+          />
+        </Route>
+        <Route path="/pages/:id">
+          <UserHome
             appState={appState}
             drizzle={drizzle}
             drizzleState={drizzleState}
