@@ -17,7 +17,7 @@ const Home = ({ appState, drizzle, drizzleState }) => {
         users.map((user) => (
           <NavigationLink
             title={user.username}
-            href={`#/pages/${user.owner}`}
+            href={`#/pages/${user.id}`}
             style={{ backgroundColor: user.backgroundGradient }}
             key={user.owner}
           />
