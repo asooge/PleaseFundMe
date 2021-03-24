@@ -30,7 +30,7 @@ function Router({ appState, setApp, drizzle, drizzleState }) {
             drizzleState={drizzleState}
           />
         </Route>
-        <Route path="/funds/:id">
+        <Route path="/pages/:address/:index">
           <SingleFund
             appState={appState}
             drizzle={drizzle}

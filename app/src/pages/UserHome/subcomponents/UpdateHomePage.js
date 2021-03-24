@@ -2,26 +2,25 @@ import React, { useEffect, useState } from 'react';
 import { homePageInputs } from '../../../components/Form/inputs';
 import { Form } from '../../../components/Form/Form';
 
-const UpdateHomePage = ({ appState, drizzle, drizzleState, match }) => {
-  const [user, setUser] = useState({
-    username: '',
-    aboutMe: '',
-    backgroundGradient: '',
+const UpdateHomePage = ({ appState, drizzle, drizzleState, match, user }) => {
+  const [state, setState] = useState({
+    username: user.username,
+    aboutMe: user.aboutMe,
+    backgroundGradient: user.backgroundGradient,
   });
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setUser((prevState) => ({ ...prevState, [name]: value }));
+    setState((prevState) => ({ ...prevState, [name]: value }));
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     drizzle.contracts.PleaseFundMe.methods.updateHomePage.cacheSend(
-      user.username,
-      user.aboutMe,
-      user.backgroundGradient,
+      state.username,
+      state.aboutMe,
+      state.backgroundGradient,
     );
-    alert('User updated!');
   };
 
   return (
@@ -29,7 +28,7 @@ const UpdateHomePage = ({ appState, drizzle, drizzleState, match }) => {
       Update
       <Form
         inputs={homePageInputs}
-        values={user}
+        values={state}
         handleChange={handleChange}
         onSubmit={handleSubmit}
       />

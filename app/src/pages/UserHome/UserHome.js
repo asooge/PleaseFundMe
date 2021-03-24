@@ -2,6 +2,7 @@ import React, { useEffect, useMemo } from 'react';
 import { withRouter } from 'react-router-dom';
 import UpdateHomePage from './subcomponents/UpdateHomePage';
 import NavigationLink from '../../nav/NavigationLink';
+import CreateFunder from './subcomponents/CreateFunder/CreateFunder';
 
 const UserHome = ({ appState, setApp, drizzle, drizzleState, match }) => {
   const { getUsersHash } = appState;
@@ -52,15 +53,19 @@ const UserHome = ({ appState, setApp, drizzle, drizzleState, match }) => {
           appState={appState}
           drizzle={drizzle}
           drizzleState={drizzleState}
+          user={user}
         />
       )}
+      <div className="create-funder-form">
+        {isOwner && <CreateFunder drizzle={drizzle} />}
+      </div>
       <div className="funders-container">
         {userFunders &&
           userFunders.map((funder) => (
             <div>
               <NavigationLink
                 title={`${funder.title}, ${funder.fundTarget}`}
-                href={`#/pages/${user.id}`}
+                href={`#/pages/${user.owner}/${funder.id}`}
                 key={user.owner}
               />
             </div>
