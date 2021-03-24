@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { withRouter } from 'react-router-dom';
-import { Form } from '../components/Form/Form';
-import { funderInputs } from '../components/Form/inputs';
+import { Form } from '../../components/Form/Form';
+import { funderInputs } from '../../components/Form/inputs';
+import ContributionForm from './subcomponents/ContributeForm';
 
 const SingleFund = ({ drizzle, drizzleState, match }) => {
   const [state, setState] = useState({
@@ -42,6 +43,10 @@ const SingleFund = ({ drizzle, drizzleState, match }) => {
     );
   };
 
+  const withdrawFunder = () => {
+    drizzle.contracts.PleaseFundMe.methods.withdraw.cacheSend(index);
+  };
+
   const funder =
     state.funderHash &&
     drizzleState.contracts.PleaseFundMe.getUserFunderAtIndex[state.funderHash]
@@ -53,6 +58,8 @@ const SingleFund = ({ drizzle, drizzleState, match }) => {
       <div>
         {funder.title}
         {funder.fundTarget}
+        <p>Fund Balance: {funder.fundBalance}</p>
+        <p>Total Amount Raised: {funder.amountRaised}</p>
       </div>
       {isOwner && (
         <Form
@@ -60,6 +67,15 @@ const SingleFund = ({ drizzle, drizzleState, match }) => {
           values={fund}
           handleChange={handleChange}
           onSubmit={updateFunder}
+        />
+      )}
+      {isOwner ? (
+        <button onClick={withdrawFunder}>withdraw</button>
+      ) : (
+        <ContributionForm
+          drizzle={drizzle}
+          toAddress={address}
+          funderIndex={index}
         />
       )}
     </div>

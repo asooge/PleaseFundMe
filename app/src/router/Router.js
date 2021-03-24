@@ -4,7 +4,7 @@ import { HashRouter, Route } from 'react-router-dom';
 import About from '../pages/About';
 import Home from '../pages/Home';
 import ViewFunds from '../pages/ViewFunds';
-import SingleFund from '../pages/SingleFund';
+import SingleFund from '../pages/SingleFund/SingleFund';
 import CreateFund from '../pages/CreateFund';
 import Logic from '../pages/FundMe';
 import UserHome from '../pages/UserHome/UserHome';

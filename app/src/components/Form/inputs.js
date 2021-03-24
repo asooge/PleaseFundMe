@@ -38,3 +38,16 @@ export const homePageInputs = [
     type: 'text',
   },
 ];
+
+export const contributeInputs = [
+  {
+    label: 'Amount',
+    name: 'amount',
+    type: 'number',
+  },
+  {
+    label: 'Message',
+    name: 'message',
+    type: 'text',
+  },
+];
