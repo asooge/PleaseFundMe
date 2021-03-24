@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { withRouter } from 'react-router-dom';
-import { Form } from '../components/Form/Form';
-import { funderInputs } from '../components/Form/inputs';
+import { Form } from '../../components/Form/Form';
+import { funderInputs } from '../../components/Form/inputs';
+import ContributionForm from './subcomponents/ContributeForm';
 
 const SingleFund = ({ drizzle, drizzleState, match }) => {
   const [state, setState] = useState({
@@ -48,11 +49,13 @@ const SingleFund = ({ drizzle, drizzleState, match }) => {
       ?.value;
 
   const isOwner = address == drizzleState.accounts[0];
+  console.log({ funder });
   return funder ? (
     <div>
       <div>
         {funder.title}
         {funder.fundTarget}
+        <p>Amount Raised: {funder.amountRaised}</p>
       </div>
       {isOwner && (
         <Form
@@ -60,6 +63,13 @@ const SingleFund = ({ drizzle, drizzleState, match }) => {
           values={fund}
           handleChange={handleChange}
           onSubmit={updateFunder}
+        />
+      )}
+      {!isOwner && (
+        <ContributionForm
+          drizzle={drizzle}
+          toAddress={address}
+          funderIndex={index}
         />
       )}
     </div>
