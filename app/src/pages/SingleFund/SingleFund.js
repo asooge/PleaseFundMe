@@ -43,19 +43,23 @@ const SingleFund = ({ drizzle, drizzleState, match }) => {
     );
   };
 
+  const withdrawFunder = () => {
+    drizzle.contracts.PleaseFundMe.methods.withdraw.cacheSend(index);
+  };
+
   const funder =
     state.funderHash &&
     drizzleState.contracts.PleaseFundMe.getUserFunderAtIndex[state.funderHash]
       ?.value;
 
   const isOwner = address == drizzleState.accounts[0];
-  console.log({ funder });
   return funder ? (
     <div>
       <div>
         {funder.title}
         {funder.fundTarget}
-        <p>Amount Raised: {funder.amountRaised}</p>
+        <p>Fund Balance: {funder.fundBalance}</p>
+        <p>Total Amount Raised: {funder.amountRaised}</p>
       </div>
       {isOwner && (
         <Form
@@ -65,7 +69,9 @@ const SingleFund = ({ drizzle, drizzleState, match }) => {
           onSubmit={updateFunder}
         />
       )}
-      {!isOwner && (
+      {isOwner ? (
+        <button onClick={withdrawFunder}>withdraw</button>
+      ) : (
         <ContributionForm
           drizzle={drizzle}
           toAddress={address}
