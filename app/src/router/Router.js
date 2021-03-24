@@ -6,8 +6,9 @@ import Home from '../pages/Home';
 import ViewFunds from '../pages/ViewFunds';
 import SingleFund from '../pages/SingleFund/SingleFund';
 import CreateFund from '../pages/CreateFund';
-import Logic from '../pages/FundMe';
 import UserHome from '../pages/UserHome/UserHome';
+import Users from '../pages/Users';
+import CreateUser from '../pages/CreateUser';
 
 function Router({ appState, setApp, drizzle, drizzleState }) {
   return (
@@ -30,7 +31,7 @@ function Router({ appState, setApp, drizzle, drizzleState }) {
             drizzleState={drizzleState}
           />
         </Route>
-        <Route path="/pages/:address/:index">
+        <Route path="/users/:address/:index">
           <SingleFund
             appState={appState}
             drizzle={drizzle}
@@ -44,7 +45,7 @@ function Router({ appState, setApp, drizzle, drizzleState }) {
             drizzleState={drizzleState}
           />
         </Route>
-        <Route path="/pages/:id">
+        <Route path="/users/:id">
           <UserHome
             appState={appState}
             setApp={setApp}
@@ -52,8 +53,19 @@ function Router({ appState, setApp, drizzle, drizzleState }) {
             drizzleState={drizzleState}
           />
         </Route>
-        <Route path="/logic">
-          <Logic drizzle={drizzle} drizzleState={drizzleState} />
+        <Route exact path="/users">
+          <Users
+            appState={appState}
+            drizzle={drizzle}
+            drizzleState={drizzleState}
+          />
+        </Route>
+        <Route path="/create-user">
+          <CreateUser
+            appState={appState}
+            drizzle={drizzle}
+            drizzleState={drizzleState}
+          />
         </Route>
       </HashRouter>
     </div>

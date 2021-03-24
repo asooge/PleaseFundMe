@@ -6,9 +6,8 @@ const NavigationBar = () => {
     <div className="navigation-bar">
       <NavigationLink title="Home" href="#/" />
       <NavigationLink title="About" href="#/about" />
-      <NavigationLink title="Funds" href="#/funds" />
-      <NavigationLink title="Create" href="#/create" />
-      <NavigationLink title="Logic" href="#/logic" />
+      <NavigationLink title="Users" href="#/users" />
+      <NavigationLink title="Get Started" href="#/create-user" />
     </div>
   );
 };

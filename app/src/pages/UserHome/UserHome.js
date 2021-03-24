@@ -65,7 +65,7 @@ const UserHome = ({ appState, setApp, drizzle, drizzleState, match }) => {
             <div>
               <NavigationLink
                 title={`${funder.title}, ${funder.fundTarget}`}
-                href={`#/pages/${user.owner}/${funder.id}`}
+                href={`#/users/${user.owner}/${funder.id}`}
                 key={user.owner}
               />
             </div>
