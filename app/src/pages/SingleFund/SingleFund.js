@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { Form } from '../../components/Form/Form';
 import { funderInputs } from '../../components/Form/inputs';
 import ContributionForm from './subcomponents/ContributeForm';
+import ProgressBar from './subcomponents/ProgressBar';
 
 const SingleFund = ({ drizzle, drizzleState, match }) => {
   const [state, setState] = useState({
@@ -54,29 +55,38 @@ const SingleFund = ({ drizzle, drizzleState, match }) => {
 
   const isOwner = address == drizzleState.accounts[0];
   return funder ? (
-    <div>
-      <div>
-        {funder.title}
-        {funder.fundTarget}
+    <div className="single-fund">
+      <div className="fund-info">
+        <h1>{funder.title}</h1>
+        <p>Fund Target: {funder.fundTarget}</p>
         <p>Fund Balance: {funder.fundBalance}</p>
         <p>Total Amount Raised: {funder.amountRaised}</p>
       </div>
+      <div className="side-bar">
+        <ProgressBar drizzle={drizzle} drizzleState={drizzleState} />
+      </div>
       {isOwner && (
-        <Form
-          inputs={funderInputs}
-          values={fund}
-          handleChange={handleChange}
-          onSubmit={updateFunder}
-        />
+        <div className="fund-info">
+          <Form
+            inputs={funderInputs}
+            values={fund}
+            handleChange={handleChange}
+            onSubmit={updateFunder}
+          />
+        </div>
       )}
       {isOwner ? (
-        <button onClick={withdrawFunder}>withdraw</button>
+        <div className="side-bar">
+          <button onClick={withdrawFunder}>withdraw</button>
+        </div>
       ) : (
-        <ContributionForm
-          drizzle={drizzle}
-          toAddress={address}
-          funderIndex={index}
-        />
+        <div className="side-bar">
+          <ContributionForm
+            drizzle={drizzle}
+            toAddress={address}
+            funderIndex={index}
+          />
+        </div>
       )}
     </div>
   ) : (

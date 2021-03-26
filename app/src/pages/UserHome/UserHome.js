@@ -44,7 +44,6 @@ const UserHome = ({ appState, setApp, drizzle, drizzleState, match }) => {
     <div
       className="user-home"
       style={{ backgroundColor: user.backgroundGradient }}>
-      <h1>Hello</h1>
       <h2>{user.username}</h2>
       <p>{user.aboutMe}</p>
       <p>{user.owner}</p>
