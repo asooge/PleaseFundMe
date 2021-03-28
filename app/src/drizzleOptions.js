@@ -1,5 +1,6 @@
 import Web3 from 'web3';
 import PleaseFundMe from './contracts/PleaseFundMe.json';
+import PleaseFundMe_v3 from './contracts/PleaseFundMe_v3.json';
 
 window.ethereum.enable();
 
@@ -12,7 +13,7 @@ const options = {
       url: 'ws://localhost:8545',
     },
   },
-  contracts: [PleaseFundMe],
+  contracts: [PleaseFundMe, PleaseFundMe_v3],
   events: {},
 };
 
