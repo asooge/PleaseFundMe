@@ -31,7 +31,7 @@ function Router({ appState, setApp, drizzle, drizzleState }) {
             drizzleState={drizzleState}
           />
         </Route>
-        <Route path="/users/:address/:index">
+        <Route exact path="/funders/:funderId">
           <SingleFund
             appState={appState}
             drizzle={drizzle}
@@ -45,7 +45,7 @@ function Router({ appState, setApp, drizzle, drizzleState }) {
             drizzleState={drizzleState}
           />
         </Route>
-        <Route path="/users/:id">
+        <Route exact path="/users/:userId">
           <UserHome
             appState={appState}
             setApp={setApp}

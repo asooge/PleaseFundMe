@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { contributeInputs } from '../../../components/Form/inputs';
 import { Form } from '../../../components/Form/Form';
 
-const ContributionForm = ({ drizzle, toAddress, funderIndex }) => {
+const ContributionForm = ({ drizzle, funderId }) => {
   const [state, setState] = useState({
     amount: 0,
     message: '',
@@ -16,8 +16,8 @@ const ContributionForm = ({ drizzle, toAddress, funderIndex }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const amount = drizzle.web3.utils.toWei(state.amount, 'ether');
-    drizzle.contracts.PleaseFundMe.methods
-      .contribute(toAddress, funderIndex)
+    drizzle.contracts.PleaseFundMe_v3.methods
+      .contribute(funderId, state.message)
       .send({ value: amount });
   };
 
