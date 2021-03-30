@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Form } from '../../components/Form/Form';
 import { funderInputs } from '../../components/Form/inputs';
@@ -9,7 +9,7 @@ const SingleFund = ({ drizzle, drizzleState, match }) => {
   const [state, setState] = useState({
     funderHash: null,
   });
-  const { address, index } = match.params;
+  const { funderId } = match.params;
 
   const [fund, setFund] = useState({
     title: '',
@@ -20,12 +20,11 @@ const SingleFund = ({ drizzle, drizzleState, match }) => {
 
   useEffect(() => {
     getFunder();
-  }, [index]);
+  }, [funderId]);
 
   const getFunder = async () => {
-    const funderHash = drizzle.contracts.PleaseFundMe.methods.getUserFunderAtIndex.cacheCall(
-      address,
-      index,
+    const funderHash = drizzle.contracts.PleaseFundMe_v3.methods.getFunderById.cacheCall(
+      funderId,
     );
     setState({ funderHash });
   };
@@ -37,23 +36,27 @@ const SingleFund = ({ drizzle, drizzleState, match }) => {
 
   const updateFunder = async (event) => {
     event.preventDefault();
-    drizzle.contracts.PleaseFundMe.methods.updateFunder.cacheSend(
-      index,
+    drizzle.contracts.PleaseFundMe_v3.methods.updateFunder.cacheSend(
+      funderId,
       fund.title,
       fund.goal,
+      fund.description,
+      123456,
     );
   };
 
   const withdrawFunder = () => {
-    drizzle.contracts.PleaseFundMe.methods.withdraw.cacheSend(index);
+    drizzle.contracts.PleaseFundMe_v3.methods.withdraw.cacheSend(funderId);
   };
 
   const funder =
     state.funderHash &&
-    drizzleState.contracts.PleaseFundMe.getUserFunderAtIndex[state.funderHash]
+    drizzleState.contracts.PleaseFundMe_v3.getFunderById[state.funderHash]
       ?.value;
 
-  const isOwner = address == drizzleState.accounts[0];
+  console.log({ funder });
+
+  const isOwner = funder && funder.owner == drizzleState.accounts[0];
   return funder ? (
     <div className="single-fund">
       <div className="fund-info">
@@ -61,9 +64,11 @@ const SingleFund = ({ drizzle, drizzleState, match }) => {
         <p>Fund Target: {funder.fundTarget}</p>
         <p>Fund Balance: {funder.fundBalance}</p>
         <p>Total Amount Raised: {funder.amountRaised}</p>
+        <p>Description: {funder.description}</p>
+        <p>End Date: {funder.endDate}</p>
       </div>
       <div className="side-bar">
-        <ProgressBar drizzle={drizzle} drizzleState={drizzleState} />
+        <ProgressBar amount={funder.amountRaised} goal={funder.fundTarget} />
       </div>
       {isOwner && (
         <div className="fund-info">
@@ -81,11 +86,7 @@ const SingleFund = ({ drizzle, drizzleState, match }) => {
         </div>
       ) : (
         <div className="side-bar">
-          <ContributionForm
-            drizzle={drizzle}
-            toAddress={address}
-            funderIndex={index}
-          />
+          <ContributionForm drizzle={drizzle} funderId={funderId} />
         </div>
       )}
     </div>

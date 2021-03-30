@@ -7,13 +7,16 @@ const Users = ({ appState, drizzle, drizzleState }) => {
   const { getUsersHash } = appState;
   const users =
     getUsersHash &&
-    drizzleState.contracts.PleaseFundMe.getUsers[getUsersHash]?.value;
+    drizzleState.contracts.PleaseFundMe_v3.getAccounts[getUsersHash]?.value;
 
   const [user, setUser] = useState({
     username: '',
     aboutMe: '',
     backgroundGradient: '',
   });
+
+  console.log({ user });
+  console.log({ users });
 
   return (
     <div>

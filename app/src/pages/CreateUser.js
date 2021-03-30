@@ -25,7 +25,7 @@ const CreateUser = ({ appState, drizzle, drizzleState }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    drizzle.contracts.PleaseFundMe.methods.createHomePage.cacheSend(
+    drizzle.contracts.PleaseFundMe_v3.methods.createHomePage.cacheSend(
       user.username,
       user.aboutMe,
       user.backgroundGradient,

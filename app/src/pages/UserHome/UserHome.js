@@ -1,30 +1,36 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import UpdateHomePage from './subcomponents/UpdateHomePage';
 import NavigationLink from '../../nav/NavigationLink';
 import CreateFunder from './subcomponents/CreateFunder/CreateFunder';
 
 const UserHome = ({ appState, setApp, drizzle, drizzleState, match }) => {
-  const { getUsersHash } = appState;
+  const { userId } = match.params;
 
-  const users = useMemo(() => {
-    return (
-      getUsersHash &&
-      drizzleState.contracts.PleaseFundMe.getUsers[getUsersHash]?.value
-    );
-  }, [getUsersHash, drizzleState]);
-
-  const { id } = match.params;
-
-  const user = useMemo(() => {
-    return users && users[id];
-  }, [users, id]);
+  const [state, setState] = useState({ accountIdHash: null });
+  const { accountIdHash } = state;
 
   useEffect(() => {
+    const accountIdHash = drizzle.contracts.PleaseFundMe_v3.methods.getAccountByid.cacheCall(
+      userId,
+    );
+    setState({ accountIdHash: accountIdHash });
+  }, []);
+
+  const user = useMemo(() => {
+    return (
+      accountIdHash &&
+      drizzleState.contracts.PleaseFundMe_v3.getAccountByid[accountIdHash]
+        ?.value
+    );
+  }, [accountIdHash, drizzleState]);
+
+  useEffect(() => {
+    console.log(user);
     const userFundersHash =
       user &&
-      drizzle.contracts.PleaseFundMe.methods.getUserFunders.cacheCall(
-        user.owner,
+      drizzle.contracts.PleaseFundMe_v3.methods.getUserFunders.cacheCall(
+        user.id,
       );
     setApp((prevState) => ({
       ...prevState,
@@ -36,7 +42,8 @@ const UserHome = ({ appState, setApp, drizzle, drizzleState, match }) => {
 
   const userFunders =
     userFundersHash &&
-    drizzleState.contracts.PleaseFundMe.getUserFunders[userFundersHash]?.value;
+    drizzleState.contracts.PleaseFundMe_v3.getUserFunders[userFundersHash]
+      ?.value;
 
   const isOwner = user && user.owner == drizzleState.accounts[0];
 
@@ -64,7 +71,7 @@ const UserHome = ({ appState, setApp, drizzle, drizzleState, match }) => {
             <div>
               <NavigationLink
                 title={`${funder.title}, ${funder.fundTarget}`}
-                href={`#/users/${user.owner}/${funder.id}`}
+                href={`#/funders/${funder.id}`}
                 key={user.owner}
               />
             </div>

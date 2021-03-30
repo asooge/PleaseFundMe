@@ -7,7 +7,7 @@ const AppState = ({ drizzle, drizzleState }) => {
   });
 
   useEffect(() => {
-    const txHash = drizzle.contracts.PleaseFundMe.methods.getUsers.cacheCall();
+    const txHash = drizzle.contracts.PleaseFundMe_v3.methods.getAccounts.cacheCall();
     // drizzle.contracts.PleaseFundMe.methods.createHomePage.cacheSend(
     //   'miketsuji',
     //   'hello',
