@@ -4,10 +4,10 @@ import { homePageInputs } from '../components/Form/inputs';
 import { Form } from '../components/Form/Form';
 
 const Users = ({ appState, drizzle, drizzleState }) => {
-  const { getUsersHash } = appState;
+  const { getAccountsHash } = appState;
   const users =
-    getUsersHash &&
-    drizzleState.contracts.PleaseFundMe_v3.getAccounts[getUsersHash]?.value;
+    getAccountsHash &&
+    drizzleState.contracts.PleaseFundMe_v3.getAccounts[getAccountsHash]?.value;
 
   const [user, setUser] = useState({
     username: '',

@@ -24,7 +24,7 @@ const CreateFund = ({ drizzle, drizzleState }) => {
       fund.endDate,
       { gas: 1043200 },
     );
-    alert('Fund ' + fund.title + ' submitted!');
+    // alert('Fund ' + fund.title + ' submitted!');
   };
 
   return (

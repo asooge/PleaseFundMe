@@ -23,7 +23,7 @@ const CreateFunder = ({ drizzle }) => {
       fund.description,
       123,
     );
-    alert('Fund ' + fund.title + ' submitted!');
+    // alert('Fund ' + fund.title + ' submitted!');
   };
 
   return (

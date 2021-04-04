@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const ViewFunds = ({ appState, drizzle, drizzleState }) => {
-  const { getUsersHash } = appState;
+  const { getAccountsHash } = appState;
   const fundersCount =
-    getUsersHash &&
-    drizzleState.contracts.PleaseFundMe.getUsers[getUsersHash]?.value;
+    getAccountsHash &&
+    drizzleState.contracts.PleaseFundMe_v3.getAccounts[getAccountsHash]?.value;
 
   const array = Array();
   for (var i = 0; i < fundersCount; i++) {

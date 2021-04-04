@@ -7,10 +7,10 @@ const CreateUser = ({ appState, drizzle, drizzleState }) => {
   useEffect(() => {
     users && console.log({ users: users });
   }, [drizzleState.contracts.PleaseFundMe]);
-  const { getUsersHash } = appState;
+  const { getAccountsHash } = appState;
   const users =
-    getUsersHash &&
-    drizzleState.contracts.PleaseFundMe.getUsers[getUsersHash]?.value;
+    getAccountsHash &&
+    drizzleState.contracts.PleaseFundMe.getUsers[getAccountsHash]?.value;
 
   const [user, setUser] = useState({
     username: '',
@@ -30,7 +30,7 @@ const CreateUser = ({ appState, drizzle, drizzleState }) => {
       user.aboutMe,
       user.backgroundGradient,
     );
-    alert(`Home page created for ${user.username}!`);
+    // alert(`Home page created for ${user.username}!`);
   };
 
   return (

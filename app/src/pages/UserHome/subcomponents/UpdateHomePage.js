@@ -16,7 +16,7 @@ const UpdateHomePage = ({ appState, drizzle, drizzleState, match, user }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    drizzle.contracts.PleaseFundMe.methods.updateHomePage.cacheSend(
+    drizzle.contracts.PleaseFundMe_v3.methods.updateHomePage.cacheSend(
       state.username,
       state.aboutMe,
       state.backgroundGradient,
