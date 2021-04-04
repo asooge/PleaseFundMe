@@ -19,15 +19,11 @@ const SingleFund = ({ drizzle, drizzleState, match }) => {
   });
 
   useEffect(() => {
-    getFunder();
-  }, [funderId]);
-
-  const getFunder = async () => {
     const funderHash = drizzle.contracts.PleaseFundMe_v3.methods.getFunderById.cacheCall(
       funderId,
     );
     setState({ funderHash });
-  };
+  }, [funderId, drizzle.contracts.PleaseFundMe_v3.methods.getFunderById]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -54,9 +50,7 @@ const SingleFund = ({ drizzle, drizzleState, match }) => {
     drizzleState.contracts.PleaseFundMe_v3.getFunderById[state.funderHash]
       ?.value;
 
-  console.log({ funder });
-
-  const isOwner = funder && funder.owner == drizzleState.accounts[0];
+  const isOwner = funder && funder.owner === drizzleState.accounts[0];
   return funder ? (
     <div className="single-fund">
       <div className="fund-info">

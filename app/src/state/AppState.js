@@ -9,7 +9,7 @@ const AppState = ({ drizzle, drizzleState }) => {
   useEffect(() => {
     const getAccountsHash = drizzle.contracts.PleaseFundMe_v3.methods.getAccounts.cacheCall();
     setAppState({ getAccountsHash });
-  }, []);
+  }, [drizzle.contracts.PleaseFundMe_v3.methods.getAccounts]);
 
   return (
     <div>

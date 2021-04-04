@@ -2,20 +2,23 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import UpdateHomePage from './subcomponents/UpdateHomePage';
 import NavigationLink from '../../nav/NavigationLink';
-import CreateFunder from './subcomponents/CreateFunder/CreateFunder';
+import CreateFunder from './CreateFunder/CreateFunder';
 
-const UserHome = ({ appState, setApp, drizzle, drizzleState, match }) => {
+const UserHome = ({ drizzle, drizzleState, match }) => {
   const { userId } = match.params;
 
-  const [state, setState] = useState({ accountIdHash: null });
+  const [state, setState] = useState({
+    accountIdHash: null,
+    userFundersHash: null,
+  });
   const { accountIdHash } = state;
 
   useEffect(() => {
     const accountIdHash = drizzle.contracts.PleaseFundMe_v3.methods.getAccountByid.cacheCall(
       userId,
     );
-    setState({ accountIdHash: accountIdHash });
-  }, []);
+    setState({ accountIdHash });
+  }, [userId, drizzle.contracts.PleaseFundMe_v3.methods.getAccountByid]);
 
   const user = useMemo(() => {
     return (
@@ -26,26 +29,25 @@ const UserHome = ({ appState, setApp, drizzle, drizzleState, match }) => {
   }, [accountIdHash, drizzleState]);
 
   useEffect(() => {
-    console.log(user);
     const userFundersHash =
       user &&
       drizzle.contracts.PleaseFundMe_v3.methods.getUserFunders.cacheCall(
         user.id,
       );
-    setApp((prevState) => ({
+    setState((prevState) => ({
       ...prevState,
       userFundersHash,
     }));
-  }, [user]);
+  }, [user, drizzle.contracts.PleaseFundMe_v3.methods.getUserFunders]);
 
-  const { userFundersHash } = appState;
+  const { userFundersHash } = state;
 
   const userFunders =
     userFundersHash &&
     drizzleState.contracts.PleaseFundMe_v3.getUserFunders[userFundersHash]
       ?.value;
 
-  const isOwner = user && user.owner == drizzleState.accounts[0];
+  const isOwner = user && user.owner === drizzleState.accounts[0];
 
   return user ? (
     <div
@@ -56,7 +58,6 @@ const UserHome = ({ appState, setApp, drizzle, drizzleState, match }) => {
       <p>{user.owner}</p>
       {isOwner && (
         <UpdateHomePage
-          appState={appState}
           drizzle={drizzle}
           drizzleState={drizzleState}
           user={user}

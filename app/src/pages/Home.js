@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { homePageInputs } from '../components/Form/inputs';
-import { Form } from '../components/Form/Form';
+import React from 'react';
 
-const Home = ({ appState, drizzle, drizzleState }) => {
+const Home = () => {
   return (
     <div>
       <h1>Home</h1>

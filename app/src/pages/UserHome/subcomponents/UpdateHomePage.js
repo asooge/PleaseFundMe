@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { homePageInputs } from '../../../components/Form/inputs';
 import { Form } from '../../../components/Form/Form';
 
-const UpdateHomePage = ({ appState, drizzle, drizzleState, match, user }) => {
+const UpdateHomePage = ({ drizzle, user }) => {
   const [state, setState] = useState({
     username: user.username,
     aboutMe: user.aboutMe,
