@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 export const Form = ({ inputs, values, onSubmit, handleChange }) => {
   const getInputJSX = (input) => (
-    <>
+    <Fragment key={input.name}>
       <label>{input.label}</label>
       <input
         type={input.type}
@@ -11,7 +11,7 @@ export const Form = ({ inputs, values, onSubmit, handleChange }) => {
         onChange={handleChange}
         onSubmit={onSubmit}
       />
-    </>
+    </Fragment>
   );
 
   return (

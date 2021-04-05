@@ -1,22 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import NavigationLink from '../nav/NavigationLink';
-import { homePageInputs } from '../components/Form/inputs';
-import { Form } from '../components/Form/Form';
 
-const Users = ({ appState, drizzle, drizzleState }) => {
-  const { getUsersHash } = appState;
+const Users = ({ appState, drizzleState }) => {
+  const { getAccountsHash } = appState;
   const users =
-    getUsersHash &&
-    drizzleState.contracts.PleaseFundMe_v3.getAccounts[getUsersHash]?.value;
-
-  const [user, setUser] = useState({
-    username: '',
-    aboutMe: '',
-    backgroundGradient: '',
-  });
-
-  console.log({ user });
-  console.log({ users });
+    getAccountsHash &&
+    drizzleState.contracts.PleaseFundMe_v3.getAccounts[getAccountsHash]?.value;
 
   return (
     <div>

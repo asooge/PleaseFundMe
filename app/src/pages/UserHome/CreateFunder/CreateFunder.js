@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Form } from '../components/Form/Form';
-import { funderInputs } from '../components/Form/inputs';
+import { Form } from '../../../components/Form/Form';
+import { funderInputs } from '../../../components/Form/inputs';
 
-const CreateFund = ({ drizzle, drizzleState }) => {
+const CreateFunder = ({ drizzle }) => {
   const [fund, setFund] = useState({
     title: '',
     goal: '',
@@ -21,15 +21,14 @@ const CreateFund = ({ drizzle, drizzleState }) => {
       fund.title,
       fund.goal,
       fund.description,
-      fund.endDate,
-      { gas: 1043200 },
+      123,
     );
-    alert('Fund ' + fund.title + ' submitted!');
+    // alert('Fund ' + fund.title + ' submitted!');
   };
 
   return (
     <div>
-      <h1>Create a Fund</h1>
+      <h1>Create a Funder</h1>
       <Form
         inputs={funderInputs}
         values={fund}
@@ -40,4 +39,4 @@ const CreateFund = ({ drizzle, drizzleState }) => {
   );
 };
 
-export default CreateFund;
+export default CreateFunder;

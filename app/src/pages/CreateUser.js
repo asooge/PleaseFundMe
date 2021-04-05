@@ -1,17 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { homePageInputs } from '../components/Form/inputs';
 import { Form } from '../components/Form/Form';
 import { withRouter } from 'react-router-dom';
 
-const CreateUser = ({ appState, drizzle, drizzleState }) => {
-  useEffect(() => {
-    users && console.log({ users: users });
-  }, [drizzleState.contracts.PleaseFundMe]);
-  const { getUsersHash } = appState;
-  const users =
-    getUsersHash &&
-    drizzleState.contracts.PleaseFundMe.getUsers[getUsersHash]?.value;
-
+const CreateUser = ({ drizzle }) => {
   const [user, setUser] = useState({
     username: '',
     aboutMe: '',
@@ -30,7 +22,7 @@ const CreateUser = ({ appState, drizzle, drizzleState }) => {
       user.aboutMe,
       user.backgroundGradient,
     );
-    alert(`Home page created for ${user.username}!`);
+    // alert(`Home page created for ${user.username}!`);
   };
 
   return (
