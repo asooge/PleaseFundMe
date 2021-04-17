@@ -67,6 +67,8 @@ contract PleaseFundMe_v3 {
 
     function addFriend(bytes32 _friend) public {
         bytes32 _user = ownerToUserId[msg.sender];
+        require(ownerToUserId[msg.sender] != 0, 'user account does not exist'); // require user has an account
+        require(_user != _friend, 'you cannot add yourself as a friend ');
         require(!friendMap[_user][_friend], 'friend already added'); // require not existing friend
         userFriends[_user].push(_friend);
         friendMap[_user][_friend] = true;
