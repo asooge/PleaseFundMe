@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import UpdateHomePage from './subcomponents/UpdateHomePage';
 import NavigationLink from '../../nav/NavigationLink';
 import CreateFunder from './CreateFunder/CreateFunder';
+import './UserHome.scss';
 
 const noUserValue =
   '0x0000000000000000000000000000000000000000000000000000000000000000';
@@ -21,7 +22,6 @@ const UserHome = ({ appState, drizzle, drizzleState, match }) => {
     const userFriends = await drizzle.contracts.PleaseFundMe_v3.methods
       .getUserFriends(userId)
       .call();
-    console.log({ userFriends });
     setState((prevState) => ({ ...prevState, userFriends }));
   };
 
@@ -54,7 +54,6 @@ const UserHome = ({ appState, drizzle, drizzleState, match }) => {
   }, [user, drizzle.contracts.PleaseFundMe_v3.methods.getUserFunders]);
 
   const addFriend = () => {
-    console.log('add friend');
     drizzle.contracts.PleaseFundMe_v3.methods.addFriend.cacheSend(userId);
   };
 
@@ -67,6 +66,9 @@ const UserHome = ({ appState, drizzle, drizzleState, match }) => {
 
   const isOwner = user && user.owner === drizzleState.accounts[0];
   const isUser = appState.userId !== noUserValue;
+  const isUserFriend = appState.userFriends?.some(
+    (friend) => friend.id == userId,
+  );
 
   return user ? (
     <div
@@ -87,13 +89,14 @@ const UserHome = ({ appState, drizzle, drizzleState, match }) => {
           <CreateFunder drizzle={drizzle} />
         </div>
       ) : (
-        isUser && (
+        isUser &&
+        !isUserFriend && (
           <div>
             <button onClick={addFriend}>Add Friend</button>
           </div>
         )
       )}
-      <div id="friends-container">
+      <div className="friends-container">
         <h3>Friends</h3>
         {state.userFriends?.map((friend) => (
           <NavigationLink
@@ -104,13 +107,13 @@ const UserHome = ({ appState, drizzle, drizzleState, match }) => {
         ))}
       </div>
       <div className="funders-container">
+        <h3>Funders</h3>
         {userFunders &&
           userFunders.map((funder) => (
-            <div>
+            <div key={user.owner}>
               <NavigationLink
                 title={`${funder.title}, ${funder.fundTarget}`}
                 href={`#/funders/${funder.id}`}
-                key={user.owner}
               />
             </div>
           ))}
