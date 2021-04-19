@@ -18,6 +18,7 @@ const SingleFund = ({ drizzle, drizzleState, match }) => {
   }, [funderId, drizzle.contracts.PleaseFundMe_v3.methods.getFunderById]);
 
   const withdrawFunder = () => {
+    console.log({ funderId });
     drizzle.contracts.PleaseFundMe_v3.methods.withdraw.cacheSend(funderId);
   };
 
