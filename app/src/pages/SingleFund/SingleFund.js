@@ -3,10 +3,12 @@ import { withRouter } from 'react-router-dom';
 import ContributionForm from './subcomponents/ContributeForm';
 import ProgressBar from './subcomponents/ProgressBar';
 import { UpdateFunderForm } from './subcomponents/UpdateFunderForm';
+import './SingleFund.scss';
 
 const SingleFund = ({ drizzle, drizzleState, match }) => {
   const [state, setState] = useState({
     funderHash: null,
+    getFunderContributionsHash: null,
   });
   const { funderId } = match.params;
 
@@ -14,7 +16,10 @@ const SingleFund = ({ drizzle, drizzleState, match }) => {
     const funderHash = drizzle.contracts.PleaseFundMe_v3.methods.getFunderById.cacheCall(
       funderId,
     );
-    setState({ funderHash });
+    const getFunderContributionsHash = drizzle.contracts.PleaseFundMe_v3.methods.getFunderContributions.cacheCall(
+      funderId,
+    );
+    setState({ funderHash, getFunderContributionsHash });
   }, [funderId, drizzle.contracts.PleaseFundMe_v3.methods.getFunderById]);
 
   const withdrawFunder = () => {
@@ -26,6 +31,11 @@ const SingleFund = ({ drizzle, drizzleState, match }) => {
     drizzleState.contracts.PleaseFundMe_v3.getFunderById[state.funderHash]
       ?.value;
 
+  const contributions =
+    state.getFunderContributionsHash &&
+    drizzleState.contracts.PleaseFundMe_v3.getFunderContributions[
+      state.getFunderContributionsHash
+    ]?.value;
   const isOwner = funder && funder.owner === drizzleState.accounts[0];
   return funder ? (
     <div className="single-fund">
@@ -58,6 +68,17 @@ const SingleFund = ({ drizzle, drizzleState, match }) => {
           <ContributionForm drizzle={drizzle} funderId={funderId} />
         </div>
       )}
+
+      <div className="contributions-container">
+        <h3>Contributions:</h3>
+        {contributions?.map((contribution) => (
+          <div key={contribution.id} className="contribution">
+            <p>message: {contribution.message}</p>
+            <p>amount: {contribution.amount}</p>
+            <p>contributer: {contribution.contributer}</p>
+          </div>
+        ))}
+      </div>
     </div>
   ) : (
     'Loading . . .'
