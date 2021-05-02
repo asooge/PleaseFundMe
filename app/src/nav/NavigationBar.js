@@ -1,5 +1,6 @@
 import React from 'react';
 import NavigationLink from './NavigationLink';
+import './NavigationBar.scss';
 
 const NavigationBar = () => {
   return (
