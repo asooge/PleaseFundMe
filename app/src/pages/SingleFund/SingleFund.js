@@ -13,27 +13,27 @@ const SingleFund = ({ drizzle, drizzleState, match }) => {
   const { funderId } = match.params;
 
   useEffect(() => {
-    const funderHash = drizzle.contracts.PleaseFundMe_v3.methods.getFunderById.cacheCall(
+    const funderHash = drizzle.contracts.PleaseFundMe.methods.getFunderById.cacheCall(
       funderId,
     );
-    const getFunderContributionsHash = drizzle.contracts.PleaseFundMe_v3.methods.getFunderContributions.cacheCall(
+    const getFunderContributionsHash = drizzle.contracts.PleaseFundMe.methods.getFunderContributions.cacheCall(
       funderId,
     );
     setState({ funderHash, getFunderContributionsHash });
-  }, [funderId, drizzle.contracts.PleaseFundMe_v3.methods.getFunderById]);
+  }, [funderId, drizzle.contracts.PleaseFundMe.methods.getFunderById]);
 
   const withdrawFunder = () => {
-    drizzle.contracts.PleaseFundMe_v3.methods.withdraw.cacheSend(funderId);
+    drizzle.contracts.PleaseFundMe.methods.withdraw.cacheSend(funderId);
   };
 
   const funder =
     state.funderHash &&
-    drizzleState.contracts.PleaseFundMe_v3.getFunderById[state.funderHash]
+    drizzleState.contracts.PleaseFundMe.getFunderById[state.funderHash]
       ?.value;
 
   const contributions =
     state.getFunderContributionsHash &&
-    drizzleState.contracts.PleaseFundMe_v3.getFunderContributions[
+    drizzleState.contracts.PleaseFundMe.getFunderContributions[
       state.getFunderContributionsHash
     ]?.value;
   const isOwner = funder && funder.owner === drizzleState.accounts[0];

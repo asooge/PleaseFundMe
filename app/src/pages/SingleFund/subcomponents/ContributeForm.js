@@ -16,7 +16,7 @@ const ContributionForm = ({ drizzle, funderId }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const amount = drizzle.web3.utils.toWei(state.amount, 'ether');
-    drizzle.contracts.PleaseFundMe_v3.methods
+    drizzle.contracts.PleaseFundMe.methods
       .contribute(funderId, state.message)
       .send({ value: amount });
   };

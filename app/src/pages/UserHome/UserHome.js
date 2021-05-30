@@ -19,24 +19,24 @@ const UserHome = ({ appState, drizzle, drizzleState, match }) => {
   const { accountIdHash } = state;
 
   const getUserFriends = async () => {
-    const userFriends = await drizzle.contracts.PleaseFundMe_v3.methods
+    const userFriends = await drizzle.contracts.PleaseFundMe.methods
       .getUserFriends(userId)
       .call();
     setState((prevState) => ({ ...prevState, userFriends }));
   };
 
   useEffect(() => {
-    const accountIdHash = drizzle.contracts.PleaseFundMe_v3.methods.getAccountByid.cacheCall(
+    const accountIdHash = drizzle.contracts.PleaseFundMe.methods.getAccountById.cacheCall(
       userId,
     );
     getUserFriends();
     setState({ accountIdHash });
-  }, [userId, drizzle.contracts.PleaseFundMe_v3.methods.getAccountByid]);
+  }, [userId, drizzle.contracts.PleaseFundMe.methods.getAccountById]);
 
   const user = useMemo(() => {
     return (
       accountIdHash &&
-      drizzleState.contracts.PleaseFundMe_v3.getAccountByid[accountIdHash]
+      drizzleState.contracts.PleaseFundMe.getAccountById[accountIdHash]
         ?.value
     );
   }, [accountIdHash, drizzleState]);
@@ -44,24 +44,24 @@ const UserHome = ({ appState, drizzle, drizzleState, match }) => {
   useEffect(() => {
     const userFundersHash =
       user &&
-      drizzle.contracts.PleaseFundMe_v3.methods.getUserFunders.cacheCall(
+      drizzle.contracts.PleaseFundMe.methods.getUserFunders.cacheCall(
         user.id,
       );
     setState((prevState) => ({
       ...prevState,
       userFundersHash,
     }));
-  }, [user, drizzle.contracts.PleaseFundMe_v3.methods.getUserFunders]);
+  }, [user, drizzle.contracts.PleaseFundMe.methods.getUserFunders]);
 
   const addFriend = () => {
-    drizzle.contracts.PleaseFundMe_v3.methods.addFriend.cacheSend(userId);
+    drizzle.contracts.PleaseFundMe.methods.addFriend.cacheSend(userId);
   };
 
   const { userFundersHash } = state;
 
   const userFunders =
     userFundersHash &&
-    drizzleState.contracts.PleaseFundMe_v3.getUserFunders[userFundersHash]
+    drizzleState.contracts.PleaseFundMe.getUserFunders[userFundersHash]
       ?.value;
 
   const isOwner = user && user.owner === drizzleState.accounts[0];

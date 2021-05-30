@@ -20,7 +20,7 @@ export const UpdateFunderForm = ({ drizzle, funderId, initialState }) => {
   const updateFunder = async (event) => {
     event.preventDefault();
     const datum = Date.parse(fund.endDate) / 1000;
-    drizzle.contracts.PleaseFundMe_v3.methods.updateFunder.cacheSend(
+    drizzle.contracts.PleaseFundMe.methods.updateFunder.cacheSend(
       funderId,
       fund.title,
       fund.goal,

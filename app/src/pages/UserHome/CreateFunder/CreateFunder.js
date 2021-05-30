@@ -17,7 +17,7 @@ const CreateFunder = ({ drizzle }) => {
 
   const createFunder = async (event) => {
     event.preventDefault();
-    drizzle.contracts.PleaseFundMe_v3.methods.createFunder.cacheSend(
+    drizzle.contracts.PleaseFundMe.methods.createFunder.cacheSend(
       fund.title,
       fund.goal,
       fund.description,

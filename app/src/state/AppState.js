@@ -9,20 +9,20 @@ const AppState = ({ drizzle, drizzleState }) => {
   });
 
   const getUserData = async () => {
-    const userId = await drizzle.contracts.PleaseFundMe_v3.methods
+    const userId = await drizzle.contracts.PleaseFundMe.methods
       .getUserId()
       .call();
-    const userFriends = await drizzle.contracts.PleaseFundMe_v3.methods
+    const userFriends = await drizzle.contracts.PleaseFundMe.methods
       .getUserFriends(userId)
       .call();
     setAppState((prevState) => ({ ...prevState, userId, userFriends }));
   };
 
   useEffect(() => {
-    const getAccountsHash = drizzle.contracts.PleaseFundMe_v3.methods.getAccounts.cacheCall();
+    const getAccountsHash = drizzle.contracts.PleaseFundMe.methods.getAccounts.cacheCall();
     getUserData();
     setAppState({ getAccountsHash });
-  }, [drizzle.contracts.PleaseFundMe_v3.methods.getAccounts]);
+  }, [drizzle.contracts.PleaseFundMe.methods.getAccounts]);
 
   return (
     <div>

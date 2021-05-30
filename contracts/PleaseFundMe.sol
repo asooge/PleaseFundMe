@@ -1,7 +1,7 @@
 pragma solidity >=0.7.0 <0.8.0;
 pragma experimental ABIEncoderV2;
 
-contract PleaseFundMe_v3 {
+contract PleaseFundMe {
     event InteractionSuccess(address sender, string message);
     event TransferSuccess(address sender, string transaction, uint amount);
     
@@ -41,9 +41,8 @@ contract PleaseFundMe_v3 {
     mapping (bytes32 => User) users;
     bytes32[] private userIndex;
     mapping (bytes32 => bytes32[]) userFriends;
-    mapping (bytes32 => mapping (bytes32 => bool)) friendMap;
     
-    mapping (address => bytes32) ownerToUserId;
+    mapping (address => bytes32) public ownerToUserId;
     
     mapping (bytes32 => Funder) funders;
     bytes32[] private funderIndex;
@@ -68,10 +67,16 @@ contract PleaseFundMe_v3 {
     function addFriend(bytes32 _friend) public {
         bytes32 _user = ownerToUserId[msg.sender];
         require(ownerToUserId[msg.sender] != 0, 'user account does not exist'); // require user has an account
-        require(_user != _friend, 'you cannot add yourself as a friend ');
-        require(!friendMap[_user][_friend], 'friend already added'); // require not existing friend
+        require(_user != _friend, 'you cannot add yourself as a friend');
+        for (uint i = 0; i < userFriends[_user].length; i++) {
+          require(userFriends[_user][i] != _friend, 'friend already added'); // require not existing friend
+        }
         userFriends[_user].push(_friend);
-        friendMap[_user][_friend] = true;
+    }
+
+    function updateUserFriends(bytes32 _userId, bytes32[] memory _updatedFriends) public {
+      require(ownerToUserId[msg.sender] == _userId, 'unauthorized');
+      userFriends[_userId] = _updatedFriends; 
     }
     
     function getUserFriends(bytes32 _user) public view returns (User[] memory) {
@@ -83,7 +88,7 @@ contract PleaseFundMe_v3 {
         return _userFriends;
     }
     
-    function getAccountByid (bytes32 _id) public view returns(User memory) {
+    function getAccountById (bytes32 _id) public view returns(User memory) {
         return users[_id];
     }
     
@@ -145,8 +150,7 @@ contract PleaseFundMe_v3 {
     
     function updateFunder(bytes32 _funderId, string memory _title, uint _fundTarget, string memory _description, uint _endDate) public {
         address _sender = msg.sender;
-        bytes32 _userId = ownerToUserId[_sender];
-        require(users[_userId].owner == _sender, 'must be owner to update');
+        require(funders[_funderId].owner == _sender, 'must be owner to update');
         funders[_funderId].title = _title;
         funders[_funderId].description = _description;
         funders[_funderId].fundTarget = _fundTarget;
@@ -208,7 +212,7 @@ contract PleaseFundMe_v3 {
         return _contributions;
     }
     
-    function withdraw(bytes32 _funderId) public payable{
+    function withdraw(bytes32 _funderId) public payable {
         Funder storage funder = funders[_funderId];
         uint totalFunds = funder.fundBalance;
         uint devFunds = totalFunds / 1000;
