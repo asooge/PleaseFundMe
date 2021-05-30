@@ -26,17 +26,17 @@ const UserHome = ({ appState, drizzle, drizzleState, match }) => {
   };
 
   useEffect(() => {
-    const accountIdHash = drizzle.contracts.PleaseFundMe.methods.getAccountByid.cacheCall(
+    const accountIdHash = drizzle.contracts.PleaseFundMe.methods.getAccountById.cacheCall(
       userId,
     );
     getUserFriends();
     setState({ accountIdHash });
-  }, [userId, drizzle.contracts.PleaseFundMe.methods.getAccountByid]);
+  }, [userId, drizzle.contracts.PleaseFundMe.methods.getAccountById]);
 
   const user = useMemo(() => {
     return (
       accountIdHash &&
-      drizzleState.contracts.PleaseFundMe.getAccountByid[accountIdHash]
+      drizzleState.contracts.PleaseFundMe.getAccountById[accountIdHash]
         ?.value
     );
   }, [accountIdHash, drizzleState]);
