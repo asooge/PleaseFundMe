@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import './Form.scss';
 
 export const Form = ({ inputs, values, onSubmit, handleChange }) => {
   const getInputJSX = (input) => (
