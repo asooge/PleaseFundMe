@@ -5,7 +5,7 @@ const Users = ({ appState, drizzleState }) => {
   const { getAccountsHash } = appState;
   const users =
     getAccountsHash &&
-    drizzleState.contracts.PleaseFundMe_v3.getAccounts[getAccountsHash]?.value;
+    drizzleState.contracts.PleaseFundMe.getAccounts[getAccountsHash]?.value;
 
   return (
     <div>

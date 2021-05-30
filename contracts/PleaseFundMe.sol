@@ -1,7 +1,7 @@
 pragma solidity >=0.7.0 <0.8.0;
 pragma experimental ABIEncoderV2;
 
-contract PleaseFundMe_v3 {
+contract PleaseFundMe {
     event InteractionSuccess(address sender, string message);
     event TransferSuccess(address sender, string transaction, uint amount);
     
@@ -83,7 +83,7 @@ contract PleaseFundMe_v3 {
         return _userFriends;
     }
     
-    function getAccountByid (bytes32 _id) public view returns(User memory) {
+    function getAccountById (bytes32 _id) public view returns(User memory) {
         return users[_id];
     }
     

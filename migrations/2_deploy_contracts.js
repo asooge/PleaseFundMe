@@ -1,5 +1,5 @@
-const PleaseFundMe_v3 = artifacts.require('PleaseFundMe_v3');
+const PleaseFundMe = artifacts.require('PleaseFundMe');
 
 module.exports = function (deployer) {
-  deployer.deploy(PleaseFundMe_v3);
+  deployer.deploy(PleaseFundMe);
 };
