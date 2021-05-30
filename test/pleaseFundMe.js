@@ -57,4 +57,67 @@ contract('PleaseFundMe', async (accounts) => {
       assert.deepEqual(updatedHomePage, [userAddress, userId, ...updatedArgs]);
     });
   });
+  describe('createFunder', () => {
+    const endDate = Date.parse(new Date('10-10-2021')) / 1000;
+    const funderArgs = ['fund title', 1000, 'fund description', endDate];
+    it('should create a funder with the correct data', async () => {
+      const pleaseFundMeInstance = await PleaseFundMe.deployed();
+      const userAddress = accounts[1];
+      const userId = await pleaseFundMeInstance.getUserId({ from: userAddress });
+      await pleaseFundMeInstance.createFunder(...funderArgs, { from: userAddress });
+      const userFunders = await pleaseFundMeInstance.getUserFunders(userId);
+      const actual = userFunders[0];
+      const createdTime = actual.startDate;
+      const funderId = actual.id;
+      const expected = [userAddress, funderId, createdTime, endDate.toString(), createdTime, 'fund title', 'fund description', '1000', '0', '0'];
+      assert.deepEqual(actual, expected);
+    });
+    it('should fail if user does not have a homepage', async () => {
+      const pleaseFundMeInstance = await PleaseFundMe.deployed();
+      const userAddress = accounts[9];
+      try {
+        await pleaseFundMeInstance.createFunder(...funderArgs, { from: userAddress });
+      } catch (error) {
+        expect(error.reason).equal('must create home page before creating funder');
+      };
+    });
+  });
+  describe('updateFunder', () => {
+    const initialEndDate = Date.parse(new Date('10-10-2021')) / 1000;
+    const updatedEndDate = Date.parse(new Date('12-25-2021')) / 1000;
+    const updatedFunderArgs = ['new fund title', 1001, 'new fund description', updatedEndDate];
+    it('should update funder with correct data', async () => {
+      const pleaseFundMeInstance = await PleaseFundMe.deployed();
+      const userAddress = accounts[1];
+      const userId = await pleaseFundMeInstance.getUserId({ from: userAddress });
+      const initialUserFunders = await pleaseFundMeInstance.getUserFunders(userId);
+      const initialFunder = initialUserFunders[0];
+      const funderId = initialFunder.id;
+      const createdTime = initialFunder.startDate;
+      const expectedInitial = [userAddress, funderId, createdTime, initialEndDate.toString(), createdTime, 'fund title', 'fund description', '1000', '0', '0'];
+      assert.deepEqual(initialFunder, expectedInitial)
+
+      await pleaseFundMeInstance.updateFunder(funderId, ...updatedFunderArgs, { from: userAddress });
+      const updatedUserFunders = await pleaseFundMeInstance.getUserFunders(userId);
+      const updatedFunder = updatedUserFunders[0];
+      const updatedTime = updatedFunder.updatedAt;
+      const expectedUpdated = [userAddress, funderId, createdTime, updatedEndDate.toString(), updatedTime, 'new fund title', 'new fund description', '1001', '0', '0'];
+      assert.deepEqual(updatedFunder, expectedUpdated);
+    });
+    it('should fail if address is not the owner of the funder', async () => {
+      const pleaseFundMeInstance = await PleaseFundMe.deployed();
+      const ownerAddress = accounts[1];
+      const nonOwnerAddress = accounts[2];
+      const ownerUserId = await pleaseFundMeInstance.getUserId({ from: ownerAddress });
+      const userFunders = await pleaseFundMeInstance.getUserFunders(ownerUserId);
+      const funderId = userFunders[0].id;
+      try {
+        await pleaseFundMeInstance.updateFunder(funderId, ...updatedFunderArgs, { from: nonOwnerAddress });
+        throw new Error();
+      } catch (error) {
+        expect(error.reason).equal('must be owner to update');
+      };
+    });
+  });
+
 });

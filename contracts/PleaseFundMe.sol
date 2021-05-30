@@ -145,8 +145,7 @@ contract PleaseFundMe {
     
     function updateFunder(bytes32 _funderId, string memory _title, uint _fundTarget, string memory _description, uint _endDate) public {
         address _sender = msg.sender;
-        bytes32 _userId = ownerToUserId[_sender];
-        require(users[_userId].owner == _sender, 'must be owner to update');
+        require(funders[_funderId].owner == _sender, 'must be owner to update');
         funders[_funderId].title = _title;
         funders[_funderId].description = _description;
         funders[_funderId].fundTarget = _fundTarget;
