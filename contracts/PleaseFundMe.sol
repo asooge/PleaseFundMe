@@ -41,9 +41,8 @@ contract PleaseFundMe {
     mapping (bytes32 => User) users;
     bytes32[] private userIndex;
     mapping (bytes32 => bytes32[]) userFriends;
-    mapping (bytes32 => mapping (bytes32 => bool)) friendMap;
     
-    mapping (address => bytes32) ownerToUserId;
+    mapping (address => bytes32) public ownerToUserId;
     
     mapping (bytes32 => Funder) funders;
     bytes32[] private funderIndex;
@@ -68,10 +67,16 @@ contract PleaseFundMe {
     function addFriend(bytes32 _friend) public {
         bytes32 _user = ownerToUserId[msg.sender];
         require(ownerToUserId[msg.sender] != 0, 'user account does not exist'); // require user has an account
-        require(_user != _friend, 'you cannot add yourself as a friend ');
-        require(!friendMap[_user][_friend], 'friend already added'); // require not existing friend
+        require(_user != _friend, 'you cannot add yourself as a friend');
+        for (uint i = 0; i < userFriends[_user].length; i++) {
+          require(userFriends[_user][i] != _friend, 'friend already added'); // require not existing friend
+        }
         userFriends[_user].push(_friend);
-        friendMap[_user][_friend] = true;
+    }
+
+    function updateUserFriends(bytes32 _userId, bytes32[] memory _updatedFriends) public {
+      require(ownerToUserId[msg.sender] == _userId, 'unauthorized');
+      userFriends[_userId] = _updatedFriends; 
     }
     
     function getUserFriends(bytes32 _user) public view returns (User[] memory) {

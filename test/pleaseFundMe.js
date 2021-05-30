@@ -191,8 +191,84 @@ contract('PleaseFundMe', async (accounts) => {
         await pleaseFundMeInstance.withdraw(funderId, { from: owner });
         throw new Error();
       } catch (error) {
-        assert.equal(error.reason, 'no funds to withdraw,');
+        assert.equal(error.reason, 'no funds to withdraw');
       };
+    });
+  });
+  describe('addFriend', () => {
+    it('should add friend to user friend list', async () => {
+      const pleaseFundMeInstance = await PleaseFundMe.deployed();
+      const userAddress = accounts[1];
+      const userId = await pleaseFundMeInstance.ownerToUserId(userAddress);
+      const friendAddress = accounts[0];
+      const friendId = await pleaseFundMeInstance.ownerToUserId(friendAddress);
+      const initialUserFriends = await pleaseFundMeInstance.getUserFriends(userId);
+      await pleaseFundMeInstance.addFriend(friendId, { from: userAddress });
+      const updatedUserFriends = await pleaseFundMeInstance.getUserFriends(userId);
+      assert.equal(updatedUserFriends.length, initialUserFriends.length + 1);
+      const userFriend = await pleaseFundMeInstance.getAccountById(friendId);
+      assert.deepEqual(updatedUserFriends, [userFriend]);
+    });
+    it('should fail if user tries to add an existing friend', async () => {
+      const pleaseFundMeInstance = await PleaseFundMe.deployed();
+      const userAddress = accounts[1];
+      const friendAddress = accounts[0];
+      const friendId = await pleaseFundMeInstance.ownerToUserId(friendAddress);
+      try {
+        await pleaseFundMeInstance.addFriend(friendId, { from: userAddress });
+        throw new Error();
+      } catch (error) {
+        assert(error.reason, 'friend already added');
+      };
+    });
+    it('should fail if user tries to add self as friend 😢', async () => {
+      const pleaseFundMeInstance = await PleaseFundMe.deployed();
+      const userAddress = accounts[1];
+      const userId = await pleaseFundMeInstance.ownerToUserId(userAddress);
+      try {
+        await pleaseFundMeInstance.addFriend(userId, { from: userAddress });
+        throw new Error();
+      } catch (error) {
+        assert.equal(error.reason, 'you cannot add yourself as a friend');
+      };
+    });
+  });
+  describe('updateUserFriends', () => {
+    it('should fail if user tries to update another user friends', async () => {
+      const pleaseFundMeInstance = await PleaseFundMe.deployed();
+      const userAddress = accounts[0];
+      const targetAddress = accounts[1];
+      const targetUserId = await pleaseFundMeInstance.ownerToUserId(targetAddress);
+      try {
+        await pleaseFundMeInstance.updateUserFriends(targetUserId, [], { from: userAddress });
+        throw new Error();
+      } catch (error) {
+        assert.equal(error.reason, 'unauthorized');
+      };
+    });
+    it('should update user friends list as requested by user', async () => {
+      const pleaseFundMeInstance = await PleaseFundMe.deployed();
+      const userAddress = accounts[1];
+      const userId = await pleaseFundMeInstance.ownerToUserId(userAddress);
+      const initialUserFriends = await pleaseFundMeInstance.getUserFriends(userId);
+      assert.equal(initialUserFriends.length, 1);
+      const allUsers = await pleaseFundMeInstance.getAccounts();
+      const newFriendOne = allUsers[0].id;
+      const newFriendTwo = allUsers[2].id;
+      const newFriendsList = [newFriendOne, newFriendTwo];
+      await pleaseFundMeInstance.updateUserFriends(userId, newFriendsList, { from: userAddress });
+      const updatedUserFriends = await pleaseFundMeInstance.getUserFriends(userId);
+      assert.equal(updatedUserFriends.length, 2);
+      assert.equal(updatedUserFriends[0].id, newFriendOne);
+      assert.equal(updatedUserFriends[1].id, newFriendTwo);
+    });
+    it('should update user friends list to empty if requested by user', async () => {
+      const pleaseFundMeInstance = await PleaseFundMe.deployed();
+      const userAddress = accounts[1];
+      const userId = await pleaseFundMeInstance.ownerToUserId(userAddress);
+      await pleaseFundMeInstance.updateUserFriends(userId, [], { from: userAddress });
+      const updatedUserFriends = await pleaseFundMeInstance.getUserFriends(userId);
+      assert.deepEqual(updatedUserFriends, []);
     });
   });
 
