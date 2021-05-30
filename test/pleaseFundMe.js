@@ -119,5 +119,81 @@ contract('PleaseFundMe', async (accounts) => {
       };
     });
   });
+  describe('contribute', () => {
+    it('should create a contribution and update fund balance', async () => {
+      const pleaseFundMeInstance = await PleaseFundMe.deployed();
+      const allFunders = await pleaseFundMeInstance.getAllFunders();
+      const funder = allFunders[0];
+      const funderId = funder.id;
+      const initialFundBalance = funder.fundBalance;
+      assert.equal(initialFundBalance, '0');
+      const contributer = accounts[3];
+      const contributionValue = web3.utils.toWei('3', 'ether');
+      const contributionMessage = 'please accept this contribution'
+      await pleaseFundMeInstance.contribute(funder.id, contributionMessage, {
+        from: contributer,
+        value: contributionValue,
+      });
+      const funderPostContribution = await pleaseFundMeInstance.getFunderById(funderId);
+      const updatedBalance = funderPostContribution.fundBalance;
+      assert.equal(updatedBalance, contributionValue);
+      const funderContributions = await pleaseFundMeInstance.getFunderContributions(funderId);
+      const contribution = funderContributions[0];
+      const expectedContribution = [contribution.id, contribution.timeCreated, contributer, contributionValue, contributionMessage ]
+      assert.deepEqual(contribution, expectedContribution);
+    });
+  });
+  describe('withdraw', () => {
+    it('should reject withdrawal to address that is not owner', async () => {
+      const pleaseFundMeInstance = await PleaseFundMe.deployed();
+      const allFunders = await pleaseFundMeInstance.getAllFunders();
+      const funder = allFunders[0];
+      const funderId = funder.id;
+      const owner = funder.owner;
+      const nonOwnerAddress = accounts[9];
+      assert.notEqual(owner, nonOwnerAddress);
+      try {
+        await pleaseFundMeInstance.withdraw(funderId, { from: nonOwnerAddress });
+        console.log('fail')
+        throw new Error();
+      } catch (error) {
+        assert.equal(error.reason, 'unauthorized');
+      };
+    });
+    it('should correctly distribute funds when called by owner', async () => {
+      const pleaseFundMeInstance = await PleaseFundMe.deployed();
+      const devAddress = accounts[0];
+      const initialDevBalance = await web3.eth.getBalance(devAddress)
+      const allFunders = await pleaseFundMeInstance.getAllFunders();
+      const funder = allFunders[0];
+      const funderId = funder.id;
+      const owner = funder.owner;
+      const initialFundBalance = parseInt(funder.fundBalance);
+      const withdrawalInteraction = await pleaseFundMeInstance.withdraw(funderId, { from: owner });
+      const withdrawalAmountReceived = parseInt(withdrawalInteraction.receipt.logs[0].args['2']);
+      const postWithdrawalDevBalance = await web3.eth.getBalance(devAddress)
+      const devAmountReceived = parseInt(postWithdrawalDevBalance) - parseInt(initialDevBalance);
+      assert.equal(withdrawalAmountReceived, initialFundBalance * .999)
+      assert.equal(devAmountReceived, initialFundBalance * .001);
+      const postWithdrawalFunder = await pleaseFundMeInstance.getFunderById(funderId);
+      const postWithdrawalFundBalance = postWithdrawalFunder.fundBalance;
+      assert.equal(postWithdrawalFundBalance, '0');
+    });
+    it('should reject withdrawal if fund balance is zero', async () => {
+      const pleaseFundMeInstance = await PleaseFundMe.deployed();
+      const allFunders = await pleaseFundMeInstance.getAllFunders();
+      const funder = allFunders[0];
+      const funderId = funder.id;
+      const owner = funder.owner;
+      const fundBalance = funder.fundBalance;
+      assert.equal(fundBalance, '0');
+      try {
+        await pleaseFundMeInstance.withdraw(funderId, { from: owner });
+        throw new Error();
+      } catch (error) {
+        assert.equal(error.reason, 'no funds to withdraw,');
+      };
+    });
+  });
 
 });

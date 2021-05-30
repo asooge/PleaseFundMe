@@ -207,7 +207,7 @@ contract PleaseFundMe {
         return _contributions;
     }
     
-    function withdraw(bytes32 _funderId) public payable{
+    function withdraw(bytes32 _funderId) public payable {
         Funder storage funder = funders[_funderId];
         uint totalFunds = funder.fundBalance;
         uint devFunds = totalFunds / 1000;
