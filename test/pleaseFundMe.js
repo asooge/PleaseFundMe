@@ -154,7 +154,6 @@ contract('PleaseFundMe', async (accounts) => {
       assert.notEqual(owner, nonOwnerAddress);
       try {
         await pleaseFundMeInstance.withdraw(funderId, { from: nonOwnerAddress });
-        console.log('fail')
         throw new Error();
       } catch (error) {
         assert.equal(error.reason, 'unauthorized');
