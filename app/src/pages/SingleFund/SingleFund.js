@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import ContributionForm from './subcomponents/ContributeForm';
 import ProgressBar from './subcomponents/ProgressBar';
 import { UpdateFunderForm } from './subcomponents/UpdateFunderForm';
+import web3 from 'web3';
 import './SingleFund.scss';
 
 const SingleFund = ({ drizzle, drizzleState, match }) => {
@@ -41,16 +42,16 @@ const SingleFund = ({ drizzle, drizzleState, match }) => {
     <div className="single-fund">
       <div className="fund-info">
         <h1>{funder.title}</h1>
-        <p>Fund Target: {funder.fundTarget}</p>
-        <p>Fund Balance: {funder.fundBalance}</p>
-        <p>Total Amount Raised: {funder.amountRaised}</p>
+        <p>Fund Target: {web3.utils.fromWei(funder.fundTarget, 'ether')}</p>
+        <p>Fund Balance: {web3.utils.fromWei(funder.fundBalance, 'ether')}</p>
+        <p>Total Amount Raised: {web3.utils.fromWei(funder.amountRaised, 'ether')} Matic</p>
         <p>Description: {funder.description}</p>
         <p>Start Date: {new Date(funder.startDate * 1000).toDateString()}</p>
         <p>End Date: {new Date(funder.endDate * 1000).toDateString()}</p>
         <p>Last Updated: {new Date(funder.updatedAt * 1000).toDateString()}</p>
       </div>
       <div className="side-bar">
-        <ProgressBar amount={funder.amountRaised} goal={funder.fundTarget} />
+        <ProgressBar amount={web3.utils.fromWei(funder.amountRaised, 'ether')} goal={web3.utils.fromWei(funder.fundTarget, 'ether')} />
       </div>
       {isOwner && (
         <UpdateFunderForm
@@ -74,7 +75,7 @@ const SingleFund = ({ drizzle, drizzleState, match }) => {
         {contributions?.map((contribution) => (
           <div key={contribution.id} className="contribution">
             <p>message: {contribution.message}</p>
-            <p>amount: {contribution.amount}</p>
+            <p>amount: {web3.utils.fromWei(contribution.amount, 'ether')} Matic</p>
             <p>contributer: {contribution.contributer}</p>
           </div>
         ))}

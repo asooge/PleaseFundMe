@@ -5,7 +5,7 @@ export const funderInputs = [
     type: 'text',
   },
   {
-    label: 'Fund Value',
+    label: 'Fund Goal (Matic)',
     name: 'goal',
     type: 'number',
   },

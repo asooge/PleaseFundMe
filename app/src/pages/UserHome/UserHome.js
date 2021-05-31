@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import UpdateHomePage from './subcomponents/UpdateHomePage';
 import NavigationLink from '../../nav/NavigationLink';
 import CreateFunder from './CreateFunder/CreateFunder';
+import web3 from 'web3';
 import './UserHome.scss';
 
 const noUserValue =
@@ -112,7 +113,7 @@ const UserHome = ({ appState, drizzle, drizzleState, match }) => {
           userFunders.map((funder) => (
             <div key={user.owner}>
               <NavigationLink
-                title={`${funder.title}, ${funder.fundTarget}`}
+                title={`${funder.title}, ${web3.utils.fromWei(funder.fundTarget, 'ether')}`}
                 href={`#/funders/${funder.id}`}
               />
             </div>
