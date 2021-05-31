@@ -1,4 +1,5 @@
 import React from 'react';
+import './NavigationLink.scss'
 
 const NavigationLink = ({ title, href, style }) => {
   return (

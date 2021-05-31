@@ -1,5 +1,5 @@
 import React from 'react';
-import NavigationLink from '../nav/NavigationLink';
+import NavigationLink from '../../components/NavigationLink/NavigationLink';
 
 const Users = ({ appState, drizzleState }) => {
   const { getAccountsHash } = appState;
