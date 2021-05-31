@@ -7,11 +7,14 @@ import SingleFund from '../pages/SingleFund/SingleFund';
 import UserHome from '../pages/UserHome/UserHome';
 import Users from '../pages/Users/Users';
 import GetStarted from '../pages/GetStarted/GetStarted';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'
 
 function Router({ appState, setApp, drizzle, drizzleState }) {
   return (
     <div className="App">
       <HashRouter>
+        <ToastContainer />
         <NavigationBar />
         <Route exact path="/">
           <Home

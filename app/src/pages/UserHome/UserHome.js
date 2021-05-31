@@ -111,7 +111,7 @@ const UserHome = ({ appState, drizzle, drizzleState, match }) => {
         <h3>Funders</h3>
         {userFunders &&
           userFunders.map((funder) => (
-            <div key={user.owner}>
+            <div key={funder.id}>
               <NavigationLink
                 title={`${funder.title}, ${weiToEther(funder.fundTarget)}`}
                 href={`#/funders/${funder.id}`}
