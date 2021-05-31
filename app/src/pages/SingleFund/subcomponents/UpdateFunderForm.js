@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Form } from '../../../components/Form/Form';
 import { funderInputs } from '../../../components/Form/inputs';
-import { weiToEther, etherToWei, timestampToCalendar } from '../../../helpers/utils.ts';
+import { weiToEther, etherToWei, timestampToCalendar } from '../../../helpers/utils';
 
 export const UpdateFunderForm = ({ drizzle, funderId, initialState }) => {
   const [fund, setFund] = useState({

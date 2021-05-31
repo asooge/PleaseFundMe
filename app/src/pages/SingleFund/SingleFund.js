@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import ContributionForm from './subcomponents/ContributeForm';
 import ProgressBar from './subcomponents/ProgressBar';
 import { UpdateFunderForm } from './subcomponents/UpdateFunderForm';
-import { weiToEther, timestampToDateString } from '../../helpers/utils.ts';
+import { weiToEther, timestampToDateString } from '../../helpers/utils';
 import './SingleFund.scss';
 
 const SingleFund = ({ drizzle, drizzleState, match }) => {

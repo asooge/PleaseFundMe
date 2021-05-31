@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import UpdateHomePage from './subcomponents/UpdateHomePage';
 import NavigationLink from '../../components/NavigationLink/NavigationLink';
 import CreateFunder from './CreateFunder/CreateFunder';
-import { weiToEther } from '../../helpers/utils.ts';
+import { weiToEther } from '../../helpers/utils';
 import './UserHome.scss';
 
 const noUserValue =
