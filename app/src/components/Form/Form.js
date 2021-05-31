@@ -9,6 +9,7 @@ export const Form = ({ inputs, values, onSubmit, handleChange }) => {
         type={input.type}
         name={input.name}
         value={values[input.name]}
+        step='any'
         onChange={handleChange}
         onSubmit={onSubmit}
       />

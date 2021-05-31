@@ -5,7 +5,7 @@ const ProgressBar = ({ amount, goal }) => {
     <div>
       <h2>Amount Raised</h2>
       <p>
-        {amount} out of {goal}
+        {amount} out of {goal} (Matic)
       </p>
       <progress value={amount} max={goal} />
     </div>

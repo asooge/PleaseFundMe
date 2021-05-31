@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Form } from '../../../components/Form/Form';
 import { funderInputs } from '../../../components/Form/inputs';
+import web3 from 'web3';
 
 const CreateFunder = ({ drizzle }) => {
   const [fund, setFund] = useState({
@@ -19,11 +20,10 @@ const CreateFunder = ({ drizzle }) => {
     event.preventDefault();
     drizzle.contracts.PleaseFundMe.methods.createFunder.cacheSend(
       fund.title,
-      fund.goal,
+      web3.utils.toWei(fund.goal, 'ether'),
       fund.description,
-      123,
+      Date.parse(fund.endDate) / 1000,
     );
-    // alert('Fund ' + fund.title + ' submitted!');
   };
 
   return (
