@@ -1,9 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import UpdateHomePage from './subcomponents/UpdateHomePage';
-import NavigationLink from '../../nav/NavigationLink';
+import NavigationLink from '../../components/NavigationLink/NavigationLink';
 import CreateFunder from './CreateFunder/CreateFunder';
-import web3 from 'web3';
+import { weiToEther } from '../../helpers/utils.ts';
 import './UserHome.scss';
 
 const noUserValue =
@@ -113,7 +113,7 @@ const UserHome = ({ appState, drizzle, drizzleState, match }) => {
           userFunders.map((funder) => (
             <div key={user.owner}>
               <NavigationLink
-                title={`${funder.title}, ${web3.utils.fromWei(funder.fundTarget, 'ether')}`}
+                title={`${funder.title}, ${weiToEther(funder.fundTarget)}`}
                 href={`#/funders/${funder.id}`}
               />
             </div>

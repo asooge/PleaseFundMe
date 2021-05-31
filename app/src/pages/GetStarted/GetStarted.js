@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { homePageInputs } from '../components/Form/inputs';
-import { Form } from '../components/Form/Form';
+import { homePageInputs } from '../../components/Form/inputs';
+import { Form } from '../../components/Form/Form';
 import { withRouter } from 'react-router-dom';
 
-const CreateUser = ({ drizzle }) => {
+const GetStarted = ({ drizzle }) => {
   const [user, setUser] = useState({
     username: '',
     aboutMe: '',
@@ -22,12 +22,11 @@ const CreateUser = ({ drizzle }) => {
       user.aboutMe,
       user.backgroundGradient,
     );
-    // alert(`Home page created for ${user.username}!`);
   };
 
   return (
     <div>
-      <h1>Create Username</h1>
+      <h1>Create an Account</h1>
       <Form
         inputs={homePageInputs}
         values={user}
@@ -38,4 +37,4 @@ const CreateUser = ({ drizzle }) => {
   );
 };
 
-export default withRouter(CreateUser);
+export default withRouter(GetStarted);

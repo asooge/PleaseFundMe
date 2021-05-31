@@ -1,5 +1,5 @@
 import React from 'react';
-import NavigationLink from './NavigationLink';
+import NavigationLink from '../components/NavigationLink/NavigationLink';
 import './NavigationBar.scss';
 
 const NavigationBar = () => {
@@ -8,7 +8,7 @@ const NavigationBar = () => {
       <NavigationLink title="Home" href="#/" />
       <NavigationLink title="About" href="#/about" />
       <NavigationLink title="Users" href="#/users" />
-      <NavigationLink title="Get Started" href="#/create-user" />
+      <NavigationLink title="Get Started" href="#/get-started" />
     </div>
   );
 };
