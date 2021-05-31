@@ -13,7 +13,9 @@ const options = {
     },
   },
   contracts: [PleaseFundMe],
-  events: {},
+  events: {
+    PleaseFundMe: ['InteractionSuccess', 'TransferSuccess']
+  },
 };
 
 export default options;
