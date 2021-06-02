@@ -27,12 +27,12 @@ const UserHome = ({ appState, drizzle, drizzleState, match }) => {
   };
 
   useEffect(() => {
-    const accountIdHash = drizzle.contracts.PleaseFundMe.methods.getAccountById.cacheCall(
+    const accountIdHash = drizzle.contracts.PleaseFundMe?.methods.getAccountById.cacheCall(
       userId,
     );
     getUserFriends();
     setState({ accountIdHash });
-  }, [userId, drizzle.contracts.PleaseFundMe.methods.getAccountById]);
+  }, [userId]);
 
   const user = useMemo(() => {
     return (
@@ -52,7 +52,7 @@ const UserHome = ({ appState, drizzle, drizzleState, match }) => {
       ...prevState,
       userFundersHash,
     }));
-  }, [user, drizzle.contracts.PleaseFundMe.methods.getUserFunders]);
+  }, [user]);
 
   const addFriend = () => {
     drizzle.contracts.PleaseFundMe.methods.addFriend.cacheSend(userId);
@@ -120,7 +120,7 @@ const UserHome = ({ appState, drizzle, drizzleState, match }) => {
           ))}
       </div>
     </div>
-  ) : null;
+  ) : "Loading . . .";
 };
 
 export default withRouter(UserHome);

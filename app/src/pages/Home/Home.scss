@@ -1,0 +1,29 @@
+.onboarding-home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  h1 {
+    font-size: 22px;
+  }
+  h2 {
+    font-size: 18px;
+    margin-top: 0;
+  }  
+}
+
+.welcome-container {
+  max-width: 500px;
+}
+
+.matic-container {
+  max-width: 500px;
+}
+
+.custom-rpc-container {
+  text-align: left;
+}
+
+.connect-wallet {
+  background-color: blue;
+}
