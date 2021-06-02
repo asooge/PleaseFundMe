@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import Router from '../router/Router';
 
-const AppState = ({ drizzle, drizzleState }) => {
+const AppState = ({ drizzle, drizzleState, networkId }) => {
   const [appState, setAppState] = useState({
     getAccountsHash: null,
     userId: null,
     userFriends: [],
+    networkId,
   });
 
   const getUserData = async () => {
@@ -19,10 +20,10 @@ const AppState = ({ drizzle, drizzleState }) => {
   };
 
   useEffect(() => {
-    const getAccountsHash = drizzle.contracts.PleaseFundMe.methods.getAccounts.cacheCall();
+    const getAccountsHash = drizzle.contracts.PleaseFundMe?.methods.getAccounts.cacheCall();
     getUserData();
-    setAppState({ getAccountsHash });
-  }, [drizzle.contracts.PleaseFundMe.methods.getAccounts]);
+    setAppState((prevState) => ({ ...prevState, getAccountsHash }));
+  }, []);
 
   return (
     <div>

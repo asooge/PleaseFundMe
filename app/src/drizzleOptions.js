@@ -1,8 +1,6 @@
 import Web3 from 'web3';
 import PleaseFundMe from './contracts/PleaseFundMe.json';
 
-window.ethereum.enable();
-
 const options = {
   web3: {
     block: false,
