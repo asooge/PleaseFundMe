@@ -4,8 +4,11 @@ const About = () => {
   return (
     <div>
       <h1>About</h1>
-      <p>Please Fund Me is a decentralized blockchain crowdfunding application</p>
-      <span><a href='https://docs.matic.network/docs/develop/metamask/config-matic' target='_blank'>Connect</a> to Matic Network to get started</span>
+      <p>Please Fund Me is an open source decentralized blockchain crowdfunding application</p>
+      <span>
+        See the code and contribute to the project:&nbsp;
+        <a href='https://github.com/asooge/PleaseFundMe' target='_blank'>https://github.com/asooge/PleaseFundMe</a>
+      </span>
     </div>
   );
 };
